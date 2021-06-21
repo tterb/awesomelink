@@ -1,0 +1,46 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+body {
+  @apply font-sans m-0;
+  font-size: 16px;
+  font-kerning: normal;
+  text-rendering: optimizelegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  @apply font-mono;
+}
+
+.text-chrome {
+	/* background-image: linear-gradient(#0D3F7D 0%, #3489CF 25%, #D1E0FD 45%, #FFFEFF 50%, #9D28A6 55%, #E25DBF 64%, #FFBFEC 80%, #FFDCFF 100%); */
+  background-image: linear-gradient(#4F53B5 0%, #646AEF 15%, #D1E0FD 50%, #FFFEFF 55%, #9D28A6 60%, #E25DBF 70%, #FFBFEC 85%, #FFD3FA 95%);
+  /* background-image: linear-gradient(#2F134E 0%, #6C508C 25%, #DACDFD 45%, #FFFEFF 50%, #9D28A6 55%, #E25DBF 64%, #FFBFEC 80%, #FFDCFF 100%); */
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	-webkit-text-stroke: 2px #1D0B40;
+}
+
+.strikethrough {
+  @apply relative text-white text-opacity-60;
+}
+.strikethrough::before,
+.strikethrough::after {
+  @apply absolute bg-accent top-3 -left-0.5 transform rotate-45;
+  content: '';
+  width: 150%;
+  height: 2px;
+}
+.strikethrough::after {
+  @apply -rotate-45;
+}
+
+.submit-button {
+  background: linear-gradient( )
+}
+

@@ -1,0 +1,116 @@
+@font-face {
+    font-family: 'Nexa';
+    src: url('../assets/fonts/Nexa/Nexa-Light.woff2') format('woff2'), url('../assets/fonts/Nexa/Nexa-Light.woff') format('woff');
+    unicode-range: U+20-7E;
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Nexa';
+    src: url('../assets/fonts/Nexa/Nexa-LightItalic.woff2') format('woff2'), url('../assets/fonts/Nexa/Nexa-LightItalic.woff') format('woff');
+    unicode-range: U+20-7E;
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Nexa';
+    src: url('../assets/fonts/Nexa/Nexa-Regular.woff2') format('woff2'), url('../assets/fonts/Nexa/Nexa-Regular.woff') format('woff');
+    unicode-range: U+20-7E;
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Nexa';
+    src: url('../assets/fonts/Nexa/Nexa-Italic.woff2') format('woff2'), url('../assets/fonts/Nexa/Nexa-Italic.woff') format('woff');
+    unicode-range: U+20-7E;
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Nexa';
+    src: url('../assets/fonts/Nexa/Nexa-Medium.woff2') format('woff2'), url('../assets/fonts/Nexa/Nexa-Medium.woff') format('woff');
+    unicode-range: U+20-7E;
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Nexa';
+    src: url('../assets/fonts/Nexa/Nexa-MediumItalic.woff2') format('woff2'), url('../assets/fonts/Nexa/Nexa-MediumItalic.woff') format('woff');
+    unicode-range: U+20-7E;
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Nexa';
+    src: url('../assets/fonts/Nexa/Nexa-Bold.woff2') format('woff2'), url('../assets/fonts/Nexa/Nexa-Bold.woff') format('woff');
+    unicode-range: U+20-7E;
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Nexa';
+    src: url('../assets/fonts/Nexa/Nexa-BoldItalic.woff2') format('woff2'), url('../assets/fonts/Nexa/Nexa-BoldItalic.woff') format('woff');
+    unicode-range: U+20-7E;
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Nexa';
+    src: url('../assets/fonts/Nexa/Nexa-ExtraBold.woff2') format('woff2'), url('../assets/fonts/Nexa/Nexa-ExtraBold.woff') format('woff');
+    unicode-range: U+20-7E;
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Nexa';
+    src: url('../assets/fonts/Nexa/Nexa-ExtraBoldItalic.woff2') format('woff2'), url('../assets/fonts/Nexa/Nexa-ExtraBoldItalic.woff') format('woff');
+    unicode-range: U+20-7E;
+    font-weight: 800;
+    font-style: italic;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Nexa';
+    src: url('../assets/fonts/Nexa/Nexa-Black.woff2') format('woff2'), url('../assets/fonts/Nexa/Nexa-Black.woff') format('woff');
+    unicode-range: U+20-7E;
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Nexa';
+    src: url('../assets/fonts/Nexa/Nexa-BlackItalic.woff2') format('woff2'), url('../assets/fonts/Nexa/Nexa-BlackItalic.woff') format('woff');
+    unicode-range: U+20-7E;
+    font-weight: 900;
+    font-style: italic;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Road Rage';
+    src: url('../assets/fonts/RoadRage/RoadRage.woff2') format('woff2'), url('../assets/fonts/RoadRage/RoadRage.woff') format('woff');
+    unicode-range: U+20-7E;
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
