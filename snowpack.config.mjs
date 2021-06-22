@@ -11,7 +11,6 @@ export default {
   ],
   alias: {
     'components': './src/components',
-    'fonts': './src/assets/fonts',
     'images': './src/assets/images',
     'sections': './src/sections',
     'styles': './src/styles',
