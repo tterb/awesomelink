@@ -28,7 +28,7 @@ export default {
     /* Bundle the final build: */
     bundle: true,
     minify: true,
-    target: 'es2018',
+    target: 'es2019',
   },
   packageOptions: {
     /* ... */
