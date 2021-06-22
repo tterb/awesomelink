@@ -4,8 +4,9 @@
 
 @tailwind utilities;
 
+head,
 body {
-  @apply font-sans m-0;
+  @apply font-sans m-0 p-0 overflow-x-hidden;
   font-size: 16px;
   font-kerning: normal;
   text-rendering: optimizelegibility;
@@ -31,7 +32,7 @@ code {
 }
 .strikethrough::before,
 .strikethrough::after {
-  @apply absolute bg-accent top-3 -left-0.5 transform rotate-45;
+  @apply absolute bg-accent top-2 -left-0.5 transform rotate-45;
   content: '';
   width: 150%;
   height: 2px;
@@ -42,5 +43,13 @@ code {
 
 .submit-button {
   background: linear-gradient( )
+}
+
+.footer-icon {
+  transform: scale(1);
+}
+.footer-icon:hover {
+  transform: scale(1.15);
+  text-shadow: 0 0 10px #FD427A;
 }
 
