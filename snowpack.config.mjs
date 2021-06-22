@@ -17,7 +17,8 @@ export default {
   },
   exclude: [
     '**/node_modules/**/*',
-    'src/assets/design/*',
+    'src/assets/images/design/*',
+    'src/assets/images/unused/*',
   ],
   routes: [
     /* Enable an SPA Fallback in development: */
