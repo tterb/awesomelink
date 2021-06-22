@@ -28,7 +28,7 @@ const Hero = ({ id }) => {
     return (
         <StyledSection id={id} className='relative flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat min-h-160 md:min-h-180 xl:min-h-220' style={bgStyle}>
             <img
-                className='relative -top-12 md:-top-16 lg:-top-20 w-full sm:w-9/10 md:w-4/5 xl:w-3/4 mx-auto pointer-events-none'
+                className='relative -top-12 md:-top-1/2 xl:-top-1/3 w-full sm:w-9/10 md:w-4/5 xl:w-3/4 mx-auto pointer-events-none'
                 src={awesomeLink}
                 alt='logo' 
             />

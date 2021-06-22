@@ -5,6 +5,7 @@ import styled from 'styled-components';
 // Images
 import logo from 'images/logo.png';
 
+
 const MenuLink = styled(Link)`
     color: transparent !important;
     &::before {
@@ -55,7 +56,7 @@ const InlineMenu = ({ sectionLinks }) => (
             {sectionLinks.map(({ id, label }) => (
                 <MenuLink
                     key={id}
-                    className='inline-block relative text-gray-1000 text-opacity-90 text-xl text-center font-semibold w-auto mr-5 last:mr-0 p-0 cursor-pointer z-9999'
+                    className='inline-block relative text-gray-1000 text-opacity-90 text-base md:text-lg lg:text-xl text-center font-semibold w-auto mr-5 last:mr-0 p-0 cursor-pointer z-9999'
                     smooth={true}
                     spy={true}
                     offset={50}
@@ -84,10 +85,10 @@ InlineMenu.propTypes = {
 
 const Navbar = ({ sectionLinks }) => (
     <div className='nav-wrapper relative block font-title h-0 top-0 left-0 right-0 z-999'>
-        <div className='flex relative w-5/6 md:w-9/10 h-22 flex-wrap items-center align-middle mx-auto pt-6 pb-4 px-0 box-border'>
-            <div className='w-12 h-auto ml-0 mr-auto'>
+        <div className='flex relative w-9/10 md:w-4/5 h-22 flex-wrap items-center align-middle mx-auto pt-6 pb-4 px-0 box-border'>
+            <div className='w-6 sm:w-8 md:w-12 h-auto ml-0 mr-auto'>
                 <Link
-                    className='w-12 h-auto'
+                    className='w-6 sm:w-8 md:w-12 h-auto'
                     smooth={true}
                     spy={true}
                     offset={50}
