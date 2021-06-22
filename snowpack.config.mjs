@@ -24,16 +24,21 @@ export default {
     // {"match": "routes", "src": ".*", "dest": "/index.html"},
   ],
   optimize: {
-    /* Example: Bundle your final build: */
-    // "bundle": true,
+    /* Bundle the final build: */
+    bundle: true,
+    minify: true,
+    target: 'es2018',
   },
   packageOptions: {
     /* ... */
   },
   devOptions: {
-    /* ... */
+    /* Don't automatically open the browser */
+    open: 'none',
+    tailwindConfig: './tailwind.config.js',
   },
   buildOptions: {
-    /* ... */
+    /* This feature is experimental */
+    sourcemap: true,
   },
 };
