@@ -25,10 +25,7 @@ export default {
     // {"match": "routes", "src": ".*", "dest": "/index.html"},
   ],
   optimize: {
-    /* Bundle the final build: */
-    bundle: true,
     minify: true,
-    target: 'es2019',
   },
   packageOptions: {
     /* ... */
