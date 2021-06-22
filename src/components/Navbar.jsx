@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-scroll';
+import { animateScroll, Link } from 'react-scroll';
 import styled from 'styled-components';
 // Images
 import logo from 'images/logo.png';
@@ -85,13 +85,13 @@ InlineMenu.propTypes = {
 
 const Navbar = ({ sectionLinks }) => (
     <div className='nav-wrapper relative block font-title h-0 top-0 left-0 right-0 z-999'>
-        <div className='flex relative w-9/10 md:w-4/5 h-22 flex-wrap items-center align-middle mx-auto pt-6 pb-4 px-0 box-border'>
-            <div className='w-6 sm:w-8 md:w-12 h-auto ml-0 mr-auto'>
+        <div className='flex relative w-9/10 lg:5/6 xl:w-4/5 h-22 flex-wrap items-center align-middle mx-auto pt-6 pb-4 px-0 box-border'>
+            <div className='w-6 sm:w-8 md:w-10 xl:w-12 h-auto ml-0 mr-auto'>
                 <Link
-                    className='w-6 sm:w-8 md:w-12 h-auto'
+                    className='w-6 sm:w-8 md:w-10 xl:w-12 h-auto cursor-pointer'
                     smooth={true}
                     spy={true}
-                    offset={50}
+                    offset={0}
                     duration={500}
                     delay={0}
                     to={'hero'}
