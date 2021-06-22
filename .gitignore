@@ -134,5 +134,5 @@ sketch
 # Other
 .snowpack
 build
-src/assets/images/*_.*
+src/assets/images/unused
 src/assets/images/design
