@@ -1,0 +1,29 @@
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Awesome Link</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{% static 'img/favicon.ico' %}" />
+    <meta name="description" content="The perfect amount of spontaniety and chaotic wonder" />
+    <meta name="msapplication-TileColor" content="#1D0B40" />
+    <meta property="og:locale" content="en" />
+    <meta property="og:site_name" content="Awesome Link" />
+    <meta property="og:title" content="Awesome Link" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="The perfect amount of spontaniety and chaotic wonder" />
+    <meta property="og:image" content="/awesomelink.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Awesome Link" />
+    <meta name="twitter:description" content="Check out this awesome link!" />
+    <meta name="twitter:image" content="/awesomelink.png" />
+    <title>{% block title %}| AwesomeLink{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  </head>
+  <body>
+    {% block content %}{% endblock content %}
+  </body>
+  {% comment %} jQuery {% endcomment %}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+</html>

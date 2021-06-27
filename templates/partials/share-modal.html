@@ -1,0 +1,26 @@
+{% extends 'partials/modal.html' %}
+
+{% block modal_content %}
+    <div class="share-wrapper">
+        <h2 class="share-title text-rage">Share this on...</h2>
+        <div class="share-buttons flex flex-row items-center justify-center mx-auto">
+            <span id="shareFacebook" class="share-button share-facebook round-button" data-value="facebook">
+                {% include 'partials/icons/facebook.html' %}
+            </span>
+            <span id="shareTwitter" class="share-button share-twitter round-button" data-value="twitter">
+                {% include 'partials/icons/twitter.html' %}
+            </span>
+            <span id="shareLinkedIn" class="share-button share-linkedin round-button" data-value="linkedin">
+                {% include 'partials/icons/linkedin.html' %}
+            </span>
+            <span id="shareReddit" class="share-button share-reddit round-button stacked" data-value="reddit">
+                {% include 'partials/icons/reddit.html' %}
+                {% comment %} {% include 'partials/icons/reddit-outline.html' %} {% endcomment %}
+            </span>
+            <span id="shareLink" class="share-button share-link round-button stacked" data-value="link">
+                {% include 'partials/icons/link.html' %}
+                {% include 'partials/icons/link-outline.html' %}
+            </span>
+        </div>
+    </div>
+{% endblock %}

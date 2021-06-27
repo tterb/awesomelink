@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% if awesome_link %}
+    <div class="frame-wrapper">
+        <iframe
+            title="AwesomeLink"
+            width="100%"
+            height="100%"
+            scrolling="auto"
+            allowfullscreen="true"
+            sandbox="allow-forms allow-modals allow-same-origin allow-scripts"
+            src="{{ awesome_link.url }}"
+        ></iframe>
+        <div id="overlayToggle" class="overlay-toggle flex items-center justify-center">
+            <div id="overlayToggle" class="overlay-toggle-wrapper flex items-center justify-center">
+                <img class="overlay-toggle-img" src="{% static 'img/logo.png' %}" alt="AwesomeLink" />
+                <span class="overlay-toggle-arrow"></span>
+            </div>
+        </div>
+        <div id="overlay" class="overlay flex flex-row">
+            <div class="overlay-wrapper flex flex-row">
+                <div class="overlay-img-wrapper">
+                    <img class="overlay-img" src="{% static 'img/awesomelink.png' %}" alt="AwesomeLink" />
+                </div>
+                <div class="overlay-details flex flex-col justify-center">
+                    <span>
+                        <strong class="detail-field text-rage">URL:</strong>
+                        <a class="detail-value" href="{{ awesome_link.url }}">
+                            {{ awesome_link.normalized_url }}
+                        </a>
+                    </span>
+                    <span>
+                        <strong class="detail-field text-rage">Clicks:</strong>
+                        <span class="detail-value">
+                            {{ awesome_link.clicks }}
+                        </span>
+                    </span>
+                </div>
+                <div class="button-wrapper flex justify-center ml-auto">
+                    <div id="rateBtn" class="rate-button round-button stacked">
+                        {% block star %}
+                            {% include "partials/icons/star.html" %}
+                            {% include "partials/icons/star-outline.html" %}
+                        {% endblock %}
+                    </div>
+                    <div id="shareBtn" class="share-button round-button stacked">
+                        {% block share %}
+                            {% include "partials/icons/share.html" %}
+                            {% include "partials/icons/share-outline.html" %}
+                        {% endblock %}
+                    </div>
+                    <div id="refreshBtn" class="refresh-button round-button">
+                        {% block refresh %}
+                            {% include "partials/icons/refresh.html" %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include "partials/rate-modal.html" with modalId="rateModal" %}
+    {% include "partials/share-modal.html" with modalId="shareModal" awesome_link=awesome_link %}
+{% else %}
+    <p>This AwesomeLink doesn't exist</p>
+{% endif %}
+{% endblock content %}
