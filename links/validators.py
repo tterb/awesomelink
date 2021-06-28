@@ -1,11 +1,8 @@
 import re
-from urllib.parse import urlparse, ParseResult
-from django.core.exceptions import ValidationError
 from django.utils.http import url_has_allowed_host_and_scheme
 from rest_framework import serializers
 
 from .constants import BLACKLIST_DOMAINS
-
 
 
 def validate_safe_link(url):
@@ -15,8 +12,10 @@ def validate_safe_link(url):
         require_https=False
     )
 
-# Check URL for blacklisted domains
 def validate_awesomeness(url):
+    """
+    Check URL for blacklisted domains
+    """
     # blacklist_pattern = '|'.join([domain['pattern'] for domain in BLACKLIST_DOMAINS])
     for domain in BLACKLIST_DOMAINS:
         # if re.match(blacklist_pattern, url):

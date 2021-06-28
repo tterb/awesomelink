@@ -36,6 +36,30 @@ BLACKLISTED_URLS = [
     'https://youtube.com/embed/dQw4w9WgXcQ',
 ]
 
-FRAMEABLE_HEADERS = CaseInsensitiveDict({'Date': 'Mon, 28 Jun 2021 00:45:39 GMT', 'Server': 'Apache', 'Accept-Ranges': 'bytes', 'Vary': 'Accept-Encoding', 'Content-Encoding': 'gzip', 'Cache-Control': 'max-age=3600, must-revalidate', 'Content-Length': '7442', 'Keep-Alive': 'timeout=3, max=499', 'Connection': 'Keep-Alive', 'Content-Type': 'text/html'})
+FRAMEABLE_HEADERS = CaseInsensitiveDict({
+    'Date': 'Mon, 28 Jun 2021 00:45:39 GMT',
+    'Server': 'Apache',
+    'Accept-Ranges': 'bytes',
+    'Vary': 'Accept-Encoding',
+    'Content-Encoding': 'gzip',
+    'Cache-Control': 'max-age=3600, must-revalidate',
+    'Content-Length': '7442',
+    'Keep-Alive': 'timeout=3, max=499',
+    'Connection': 'Keep-Alive',
+    'Content-Type': 'text/html'
+})
 
-NON_FRAMEABLE_HEADERS = CaseInsensitiveDict({'Date': 'Mon, 28 Jun 2021 00:45:39 GMT', 'Server': 'Apache', 'X-Frame-Options': 'SAMEORIGIN', 'X-Content-Type-Options': 'nosniff', 'Accept-Ranges': 'bytes', 'Vary': 'Accept-Encoding', 'Content-Encoding': 'gzip', 'Cache-Control': 'max-age=3600, must-revalidate', 'Content-Length': '7442', 'Keep-Alive': 'timeout=3, max=499', 'Connection': 'Keep-Alive', 'Content-Type': 'text/html'})
+NON_FRAMEABLE_HEADERS = CaseInsensitiveDict({
+    'Date': 'Mon, 28 Jun 2021 00:45:39 GMT',
+    'Server': 'Apache',
+    'X-Frame-Options': 'SAMEORIGIN',
+    'X-Content-Type-Options': 'nosniff',
+    'Accept-Ranges': 'bytes',
+    'Vary': 'Accept-Encoding',
+    'Content-Encoding': 'gzip',
+    'Cache-Control': 'max-age=3600, must-revalidate',
+    'Content-Length': '7442',
+    'Keep-Alive': 'timeout=3, max=499',
+    'Connection': 'Keep-Alive',
+    'Content-Type': 'text/html'
+})

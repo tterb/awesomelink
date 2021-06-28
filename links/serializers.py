@@ -1,8 +1,6 @@
-from django.contrib.auth import get_user_model
 from django.core.validators import URLValidator
 from django.utils.timesince import timesince
 from rest_framework import serializers
-from rest_framework.validators import UniqueValidator
 
 from .helpers import flatten_redirects
 from .models import AwesomeLink
@@ -12,11 +10,13 @@ from .validators import validate_awesomeness
 class AwesomeLinkSerializer(serializers.ModelSerializer):
     class Meta:
         model = AwesomeLink
-        fields = ['pk', 'url', 'created', 'updated', 'clicks', 'rating', 'rating_count', 'is_approved']
-    
+        fields = ['id', 'url', 'created', 'updated', 'clicks', 'rating', 'rating_count']
+
+    # pylint: disable=no-self-use
     def validate_url(self, value):
         # Make sure the URL isn't a redirect to another page
-        URLValidator()(value)
+        url_validator = URLValidator()
+        url_validator(value)
         value = flatten_redirects(value)
         validate_awesomeness(value)
         return value

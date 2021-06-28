@@ -1,5 +1,7 @@
 
 MAX_REDIRECT_COUNT = 5
+CLIENT_ERROR_CODE_MIN = 400
+SERVER_ERROR_CODE_MAX = 512
 
 # Because assholes will use any opportunity for self-promotion
 BLACKLIST_DOMAINS = [

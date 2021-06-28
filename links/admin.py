@@ -10,7 +10,16 @@ class AwesomeLinkModelAdmin(admin.ModelAdmin):
     def get_readonly_fields(self, request, obj=None):
         fields = []
         if obj:
-            fields += ['created', 'updated', 'normalized_url', 'clicks', 'rating', 'rating_count', 'flag_count']
+            fields += [
+                'created',
+                'updated',
+                'normalized_url',
+                'clicks',
+                'rating',
+                'rating_count',
+                'flag_count',
+                'is_embeddable'
+            ]
         return fields
 
 admin.site.register(AwesomeLink, AwesomeLinkModelAdmin)

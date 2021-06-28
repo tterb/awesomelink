@@ -1,10 +1,12 @@
-from urllib.parse import urlparse, ParseResult
 from django.db import models
 from django.utils import timezone
-from django.utils.timesince import timesince
 from django.core.validators import URLValidator
 
-from .helpers import normalize_url, flatten_redirects, can_be_embedded
+from .helpers import (
+    can_be_embedded,
+    flatten_redirects,
+    normalize_url
+)
 
 
 class AwesomeLink(models.Model):

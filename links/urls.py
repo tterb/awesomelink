@@ -1,28 +1,28 @@
 from django.conf import settings
 from django.conf.urls.static import static
-from django.urls import path, include
+from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 
 from .views import (
-    AwesomeLinkList,
-    AwesomeLinkCount,
-    AwesomeLinkDetail,
-    AwesomeLinkFlag,
-    AwesomeLinkRate,
-    AwesomeLinkRedirect,
-    AwesomeLinkSpecific,
-    AwesomeLinkSubmit
+    awesomelink_list,
+    awesomelink_count,
+    awesomelink_detail,
+    awesomelink_flag,
+    awesomelink_rate,
+    awesomelink_specific,
+    awesomelink_submit,
+    awesomelink_view,
 )
 
 urlpatterns = [
-    path('', AwesomeLinkRedirect),
-    path('list', AwesomeLinkList.as_view()),
-    path('<int:pk>', AwesomeLinkSpecific),
-    path('rate', AwesomeLinkRate),
-    path('flag/<int:pk>', AwesomeLinkFlag),
-    path('detail/<int:pk>', AwesomeLinkDetail),
-    path('count', AwesomeLinkCount),
-    path('submit', AwesomeLinkSubmit),
+    path('', awesomelink_view),
+    path('list', awesomelink_list.as_view()),
+    path('count', awesomelink_count),
+    path('rate', awesomelink_rate),
+    path('submit', awesomelink_submit),
+    path('<int:pk>', awesomelink_specific),
+    path('flag/<int:pk>', awesomelink_flag),
+    path('detail/<int:pk>', awesomelink_detail),
 ]
 
 urlpatterns += (static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))

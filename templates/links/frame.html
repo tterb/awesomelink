@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-{% if awesome_link %}
+{% if awesomelink %}
     <div class="frame-wrapper">
         <iframe
             title="AwesomeLink"
@@ -11,7 +11,7 @@
             scrolling="auto"
             allowfullscreen="true"
             sandbox="allow-forms allow-modals allow-same-origin allow-scripts"
-            src="{{ awesome_link.url }}"
+            src="{{ awesomelink.url }}"
         ></iframe>
         <div id="overlayToggle" class="overlay-toggle flex items-center justify-center">
             <div id="overlayToggle" class="overlay-toggle-wrapper flex items-center justify-center">
@@ -27,20 +27,20 @@
                 <div class="overlay-details flex flex-col justify-center">
                     <span>
                         <strong class="detail-field text-rage">URL:</strong>
-                        <a class="detail-value" href="{{ awesome_link.url }}">
-                            {{ awesome_link.normalized_url }}
+                        <a class="detail-value" href="{{ awesomelink.url }}">
+                            {{ awesomelink.normalized_url }}
                         </a>
                     </span>
-                    {% if awesome_link.rating_count %}
+                    {% if awesomelink.rating_count %}
                         <span>
                             <strong class="detail-field text-rage">Rating:</strong>
-                                {{ awesome_link.rating }} ({{ awesome_link.rating_count }})
+                                {{ awesomelink.rating }} ({{ awesomelink.rating_count }})
                         </span>
                     {% endif %}
                     <span>
                         <strong class="detail-field text-rage">Clicks:</strong>
                         <span class="detail-value">
-                            {{ awesome_link.clicks }}
+                            {{ awesomelink.clicks }}
                         </span>
                     </span>
                 </div>
@@ -67,7 +67,7 @@
         </div>
     </div>
     {% include "partials/rate-modal.html" with modalId="rateModal" %}
-    {% include "partials/share-modal.html" with modalId="shareModal" awesome_link=awesome_link %}
+    {% include "partials/share-modal.html" with modalId="shareModal" awesomelink=awesomelink %}
 {% else %}
     <p>This AwesomeLink doesn't exist</p>
 {% endif %}

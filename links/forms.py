@@ -1,7 +1,5 @@
 from django import forms
-from django.core.validators import MaxValueValidator, MinValueValidator 
-
-from .models import AwesomeLink
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class RatingForm(forms.Form):
