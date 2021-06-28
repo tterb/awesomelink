@@ -1,14 +1,20 @@
 # from django.core.exceptions import ValidationError
+import requests, requests_mock
 from django.db import transaction
 from django.db.utils import IntegrityError
 from django.test import TestCase
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
+from links.helpers import can_be_embedded
 from links.models import AwesomeLink
 from links.serializers import AwesomeLinkSerializer
 from links.validators import validate_awesomeness
-from .constants import BLACKLISTED_URLS
+from .constants import (
+    BLACKLISTED_URLS,
+    FRAMEABLE_HEADERS, 
+    NON_FRAMEABLE_HEADERS,
+)
 
 
 class AwesomeLinkModelTest(TestCase):
@@ -69,11 +75,32 @@ class AwesomeLinkModelTest(TestCase):
                 with transaction.atomic():
                     AwesomeLink.objects.create(url=url)
 
+    def test_rating(self):
+        self.awesome_link.rate(4)
+        self.assertEqual(self.awesome_link.rating, 4.0)
+        self.assertEqual(self.awesome_link.rating_count, 1)
+        self.awesome_link.rate(3)
+        self.assertEqual(self.awesome_link.rating, 3.5)
+        self.assertEqual(self.awesome_link.rating_count, 2)
+        self.awesome_link.rate(2)
+        self.assertEqual(self.awesome_link.rating, 3.0)
+        self.assertEqual(self.awesome_link.rating_count, 3)
+
     def test_click(self):
         # Clicks should initially be 0
         self.assertEqual(self.awesome_link.clicks, 0)
         self.awesome_link.click()
         self.assertEqual(self.awesome_link.clicks, 1)
+
+    @requests_mock.Mocker()
+    def test_is_embeddable(self, mock):
+        # Mock request to return frameable headers
+        mock.get('https://joyoftesting.com/hidden-valley/', headers=FRAMEABLE_HEADERS)
+        self.assertTrue(can_be_embedded(self.awesome_link.url))
+        # Mock request to return headers that prevent embedding
+        mock.get('https://joyoftesting.com/hidden-valley/', headers=NON_FRAMEABLE_HEADERS)
+        self.assertFalse(can_be_embedded(self.awesome_link.url))
+
 
     def test_approval(self):
         # Approval should initially be false by default

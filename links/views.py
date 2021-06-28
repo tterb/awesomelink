@@ -48,8 +48,9 @@ def AwesomeLinkRedirect(request):
     awesome_link = get_random_link(awesome_links)
     context = {'awesome_link': awesome_link}
     awesome_link.click()
-    return render(request, 'links/frame.html', context)
-    # return HttpResponseRedirect(awesome_link.url)
+    if awesome_link.is_embeddable:
+        return render(request, 'links/frame.html', context)
+    return HttpResponseRedirect(awesome_link.url)
 
 def AwesomeLinkSpecific(request, pk):
     """
@@ -59,6 +60,8 @@ def AwesomeLinkSpecific(request, pk):
         # Should only redirect if link is approved
         awesome_link = AwesomeLink.objects.get(pk=pk, is_approved=True)
         awesome_link.click()
+        if awesome_link.is_embeddable:
+            return render(request, 'links/frame.html', context)
         return HttpResponseRedirect(awesome_link.url)
     except AwesomeLink.DoesNotExist:
         raise Http404('AwesomeLink does not exist')

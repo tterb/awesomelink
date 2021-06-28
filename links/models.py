@@ -4,8 +4,7 @@ from django.utils import timezone
 from django.utils.timesince import timesince
 from django.core.validators import URLValidator
 
-from .helpers import normalize_url, flatten_redirects
-# from .validators import validate_awesomeness
+from .helpers import normalize_url, flatten_redirects, can_be_embedded
 
 
 class AwesomeLink(models.Model):
@@ -17,7 +16,8 @@ class AwesomeLink(models.Model):
     rating         = models.FloatField(blank=True, default=0.0)
     rating_count   = models.IntegerField(blank=True, default=0)
     flag_count     = models.PositiveIntegerField(default=0)
-    is_approved     = models.BooleanField(default=False)
+    is_embeddable  = models.BooleanField(default=False)
+    is_approved    = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['created']
@@ -34,7 +34,7 @@ class AwesomeLink(models.Model):
         return self.rating
 
     def calculate_rating(self, new_rating):
-        return (self.rating * self.rating_count + new_rating) / (self.rating_count)
+        return ((self.rating * (self.rating_count - 1)) + new_rating) / (self.rating_count)
 
     def flag(self):
         self.flag_count += 1
@@ -45,14 +45,12 @@ class AwesomeLink(models.Model):
         self.is_approved = True
         self.save(update_fields=['is_approved'])
 
-
     def save(self, *args, **kwargs):
-        # Only set timestamp on create
         if not self.pk:
-            # self.clean()
             self.url =  flatten_redirects(self.url)
             self.created = timezone.now()
             self.normalized_url = normalize_url(self.url)
+            self.is_embeddable = can_be_embedded(self.url)
         self.updated = timezone.now()
         return super(AwesomeLink, self).save(*args, **kwargs)
 

@@ -52,7 +52,7 @@ class AwesomeLinkModelTest(TestCase):
     def test_awesomelink_specific(self):
         unapproved_link = f'/{self.unapproved_links[0].pk}'
         approved_link = f'/{self.approved_links[0].pk}'
-        # View should returnsa 404 if the link isn't approved
+        # View should return a 404 if the link isn't approved
         response = self.client.get(unapproved_link)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         # View should redirect if the link is approved
@@ -65,4 +65,16 @@ class AwesomeLinkModelTest(TestCase):
         responseData = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(responseData['count'], len(self.approved_links))
+
+    def test_awesomelink_rate(self):
+        requestData = {
+            'pk': self.approved_links[0].pk,
+            'rating': 4.0,
+        }
+        response = self.client.post('/rate', requestData)
+        # View returns a JSONResponse
+        responseData = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(responseData['rating'], 4.0)
+        self.assertEqual(responseData['rating_count'], 1)
 

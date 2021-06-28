@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 from .constants import MAX_REDIRECT_COUNT
 
 
+# Get a random AwesomeLink
 def get_random_link(awesome_links):
     return random.choice(awesome_links)
 
@@ -34,3 +35,11 @@ def normalize_url(url):
         return ParseResult('', *parsed_url[1:]).geturl().strip('index.html').strip('/')
     except:
         raise Exception(f'Unable to normalize {url}')
+
+# Detect headers that prevent a page from being embedded in an iframe
+def can_be_embedded(url):
+    response = requests.get(url)
+    headers = response.headers
+    if 'X-Frame-Options' in headers and (headers['X-Frame-Options'] == 'SAMEORIGIN' or headers['X-Frame-Options'] == 'DENY' or headers['X-Frame-Options'] == 'ALLOW-FROM'):
+        return False
+    return True
