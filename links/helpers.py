@@ -13,14 +13,24 @@ def get_random_link(awesome_links):
     """
     Get a random AwesomeLink
     """
-    return random.choice(awesome_links)
+    link = random.choice(awesome_links)
+    # Entropy management
+    while not is_link_alive(link):
+        link = random.choice(awesome_links)
+    return link
 
-def check_link_status(awesome_link):
+def is_error_code(code):
+    """
+    Return whether the status-code is within the range of a client/server error
+    """
+    return CLIENT_ERROR_CODE_MIN >= code <= SERVER_ERROR_CODE_MAX
+
+def is_link_alive(awesome_link):
     """
     Check for a dead AwesomeLink
     """
     response = requests.get(awesome_link.url)
-    return CLIENT_ERROR_CODE_MIN < response.status_code < SERVER_ERROR_CODE_MAX
+    return not is_error_code(response.status_code)
 
 def flatten_redirects(url):
     """
@@ -59,8 +69,8 @@ def can_be_embedded(url):
     response = requests.get(url)
     headers = response.headers
     if 'X-Frame-Options' in headers and \
-        (headers['X-Frame-Options'] == 'SAMEORIGIN' or \
-        headers['X-Frame-Options'] == 'DENY' or \
-        headers['X-Frame-Options'] == 'ALLOW-FROM'):
+        (headers['X-Frame-Options'].upper() == 'SAMEORIGIN' or \
+        headers['X-Frame-Options'].upper() == 'DENY' or \
+        headers['X-Frame-Options'].upper() == 'ALLOW-FROM'):
         return False
     return True
