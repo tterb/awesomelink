@@ -1,5 +1,6 @@
 from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
+from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.generics import ListCreateAPIView
@@ -37,6 +38,7 @@ def awesomelink_detail(request, pk):
     except AwesomeLink.DoesNotExist as awesomelink_dne:
         raise Http404('AwesomeLink does not exist') from awesomelink_dne
 
+@never_cache
 def awesomelink_view(request):
     """
     Redirect to a random AwesomeLink
