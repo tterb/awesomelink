@@ -23,7 +23,7 @@ def is_error_code(code):
     """
     Return whether the status-code is within the range of a client/server error
     """
-    return CLIENT_ERROR_CODE_MIN >= code <= SERVER_ERROR_CODE_MAX
+    return CLIENT_ERROR_CODE_MIN <= code <= SERVER_ERROR_CODE_MAX
 
 def is_link_alive(awesome_link):
     """
