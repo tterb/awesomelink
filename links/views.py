@@ -3,7 +3,6 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.generics import ListCreateAPIView
-from rest_framework.parsers import JSONParser
 
 from .forms import RatingForm
 from .helpers import get_random_link
@@ -107,8 +106,7 @@ def awesomelink_submit(request):
     """
     Submit a new AwesomeLink
     """
-    submission_data = JSONParser().parse(request)
-    serializer = AwesomeLinkSerializer(data=submission_data)
+    serializer = AwesomeLinkSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return JsonResponse(serializer.data, status=201)
