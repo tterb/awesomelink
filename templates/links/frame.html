@@ -32,9 +32,47 @@
                         </a>
                     </span>
                     {% if awesomelink.rating_count %}
-                        <span>
+                        <span class="flex items-center">
                             <strong class="detail-field text-rage">Rating:</strong>
-                                {{ awesomelink.rating }} ({{ awesomelink.rating_count }})
+                                <div
+                                    id="ratingStars"
+                                    class="inline-stars"
+                                    data-value="{{ awesomelink.rating }}"
+                                >
+                                    <span
+                                        id="starRating1"
+                                        class="star-rating"
+                                        title="Not impressed"
+                                        data-value="1"
+                                    ></span>
+                                    <span
+                                        id="starRating2"
+                                        class="star-rating"
+                                        title="Meh"
+                                        data-value="2"
+                                    ></span>
+                                    <span
+                                        id="starRating3"
+                                        class="star-rating"
+                                        title="Pretty cool"
+                                        data-value="3"
+                                    ></span>
+                                    <span
+                                        id="starRating4"
+                                        class="star-rating"
+                                        title="Very cool"
+                                        data-value="4"
+                                    ></span>
+                                    <span
+                                        id="starRating5"
+                                        class="star-rating"
+                                        title="Awesome!"
+                                        data-value="5"
+                                    ></span>
+                                </div>
+                                <span class="rating-count">
+                                    (<span class="rating-count-value">{{ awesomelink.rating_count }}</span>)
+                                </span>
                         </span>
                     {% endif %}
                     <span>
