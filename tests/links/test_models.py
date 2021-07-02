@@ -78,6 +78,12 @@ class AwesomeLinkModelTest(TestCase):
         self.assertEqual(self.awesomelink.rating, 3.0)
         self.assertEqual(self.awesomelink.rating_count, 3)
 
+    def test_flag(self):
+        # Flag count should initially be 0
+        self.assertEqual(self.awesomelink.flag_count, 0)
+        self.awesomelink.flag()
+        self.assertEqual(self.awesomelink.flag_count, 1)
+
     def test_click(self):
         # Clicks should initially be 0
         self.assertEqual(self.awesomelink.clicks, 0)

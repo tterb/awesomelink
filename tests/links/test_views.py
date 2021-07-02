@@ -1,4 +1,4 @@
-import json
+import json, mock, pytest
 from django.forms.models import model_to_dict
 from django.test import TestCase
 from django.urls import reverse
@@ -12,12 +12,14 @@ from links.views import (
     awesomelink_detail,
     awesomelink_rate,
     awesomelink_specific,
+    awesomelink_submit,
     awesomelink_view
 )
 from .constants import VALID_URLS
 
 
 class AwesomeLinkModelTest(TestCase):
+# class TestAwesomeLinkViews:
     """ Test module for AwesomeLink views """
 
     def setUp(self):
@@ -50,7 +52,11 @@ class AwesomeLinkModelTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(data['count'], len(self.approved_links))
 
-    def test_awesomelink_view(self):
+    @mock.patch('links.helpers.is_link_alive')
+    def test_awesomelink_view(self, mock_is_link_alive):
+        # mocker.patch('links.helpers.is_link_alive', return_value=True)
+        # @patch('links.helpers.is_link_alive', True)
+        mock_is_link_alive.return_value = True
         # Set all awesomelinks as embeddable
         for link in self.approved_links:
             link.is_embeddable = True
@@ -84,7 +90,6 @@ class AwesomeLinkModelTest(TestCase):
         fields_dict['updated'] = timesince(awesomelink.created)
         hidden_fields = {'normalized_url', 'flag_count', 'is_approved', 'is_embeddable'}
         # Ensure that the correct fields are returned from the serializer
-        import pdb; pdb.set_trace()
         for key in fields_dict.keys():
             if key in hidden_fields:
                 self.assertFalse(key in data)
@@ -112,3 +117,19 @@ class AwesomeLinkModelTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(data['rating'], 4.0)
         self.assertEqual(data['rating_count'], 1)
+
+    def test_awesomelink_submit(self):
+        submittedUrl = 'https://example.com/'
+        requestData = {
+            'url': submittedUrl,
+        }
+        response = self.client.post(reverse(awesomelink_submit), requestData)
+        # View returns a JSONResponse
+        data = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(data['url'], submittedUrl)
+        # There should be a matching AwesomeLink
+        links = AwesomeLink.objects.filter(url=submittedUrl)
+        self.assertEqual(links.count(), 1)
+        # Submitted links should not be approved
+        self.assertFalse(links[0].is_approved)
