@@ -20,19 +20,25 @@
             </div>
         </div>
         <div id="overlay" class="overlay flex flex-row">
-            <div class="overlay-wrapper flex flex-row">
+            <div class="overlay-wrapper flex">
                 <div class="overlay-img-wrapper">
-                    <img class="overlay-img" src="{% static 'img/awesomelink.png' %}" alt="AwesomeLink" />
+                    <a
+                        href="https://awesomelink.netlify.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <img class="overlay-img" src="{% static 'img/awesomelink.png' %}" alt="AwesomeLink" />
+                    </a>
                 </div>
                 <div class="overlay-details flex flex-col justify-center">
-                    <span>
+                    <span class="url-field">
                         <strong class="detail-field text-rage">URL:</strong>
                         <a class="detail-value" href="{{ awesomelink.url }}">
                             {{ awesomelink.normalized_url }}
                         </a>
                     </span>
                     {% if awesomelink.rating_count %}
-                        <span class="flex items-center">
+                        <span class="flex items-center rating-field">
                             <strong class="detail-field text-rage">Rating:</strong>
                                 <div
                                     id="ratingStars"
@@ -75,14 +81,14 @@
                                 </span>
                         </span>
                     {% endif %}
-                    <span>
+                    <span class="clicks-field">
                         <strong class="detail-field text-rage">Clicks:</strong>
                         <span class="detail-value">
                             {{ awesomelink.clicks }}
                         </span>
                     </span>
                 </div>
-                <div class="button-wrapper flex justify-center ml-auto">
+                <div class="button-wrapper flex justify-center">
                     <div id="rateBtn" class="rate-button round-button stacked">
                         {% block star %}
                             {% include "partials/icons/star.html" %}
@@ -95,6 +101,16 @@
                             {% include "partials/icons/share-outline.html" %}
                         {% endblock %}
                     </div>
+                    <a
+                        class="share-button link-button round-button stacked"
+                        href="{{ awesomelink.url }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        {% block link %}
+                            {% include "partials/icons/link-outline.html" %}
+                        {% endblock %}
+                    </a>
                     <div id="refreshBtn" class="refresh-button round-button">
                         {% block refresh %}
                             {% include "partials/icons/refresh.html" %}
@@ -110,3 +126,9 @@
     <p>This AwesomeLink doesn't exist</p>
 {% endif %}
 {% endblock content %}
+
+{% block scripts %}
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/rating.js' %}"></script>
+    <script src="{% static 'js/share.js' %}"></script>
+{% endblock scripts %}

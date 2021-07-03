@@ -163,7 +163,7 @@ a:active {
     width: 1.75rem;
     height: 1.75rem;
     right: 2rem;
-    bottom: 9.75rem;
+    bottom: 10rem;
     margin-left: auto;
     margin-right: 0;
 }
@@ -198,8 +198,9 @@ a:active {
     background: #1D0B40;
     color: rgba(255,255,255,0.85);
     width: 100%;
+    height: auto;
+    min-height: 8rem;
     bottom: -100%;
-    /* padding: 0; */
     transition: all 250ms ease-in-out;
     z-index: 5;
 }
@@ -220,11 +221,16 @@ a:active {
 }
 
 .overlay .overlay-wrapper {
+    flex-direction: row;
     width: 100%;
     padding: 1rem 2rem;
+    box-sizing: border-box;
 }
 
 .overlay .overlay-img-wrapper {
+    display: flex;
+    flex-flow: wrap;
+    align-content: center;
     width: 30%;
     max-width: 15rem;
     height: auto;
@@ -237,10 +243,23 @@ a:active {
 
 .overlay .overlay-details {
     font-size: 1.15rem;
+    text-overflow: ellipsis;
     justify-content: center;
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
 }
 .overlay .overlay-details .detail-field {
     color: #FD427A;
+}
+.overlay .overlay-details .url-field {
+    width: auto;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.overlay .button-wrapper {
+    margin-left: auto;
 }
 
 .icon {
@@ -309,7 +328,9 @@ a:active {
     stroke: white;
     transition: all 100ms ease-in-out;
 }
-
+.round-button.link-button {
+    display: none;
+}
 
 /**
  * Modal
@@ -476,4 +497,94 @@ a:active {
 .round-button.stacked:hover .icon.outline.icon-link,
 .round-button.stacked:active .icon.outline.icon-link  {
     fill: transparent;
+}
+
+/**
+ * Responsiveness
+ **/
+@media only screen and (max-width: 720px) {
+    .round-button {
+        padding: 1.15rem;
+    }
+    .round-button .icon {
+        height: 1.5rem;
+    }
+    .overlay-toggle.expanded {
+        bottom: 10rem;
+    }
+    .overlay .overlay-wrapper {
+        padding: 1rem 1.25rem;
+    }
+    .overlay .overlay-details {
+        font-size: 1rem;
+    }
+    .overlay .overlay-details .url-field {
+        display: none;
+    }
+    .overlay .overlay-img-wrapper {
+        width: 25%;
+    }
+    .overlay .button-wrapper .link-button {
+        display: flex;
+    }
+    .modal .share-link-button {
+        padding: 1.5rem;
+    }
+    .modal .share-link-button .icon {
+        height: 1.75rem;
+    }
+}
+@media only screen and (max-width: 650px) {
+    .round-button {
+        margin: auto 0.5rem;
+        padding: 1.5rem;
+    }
+    .round-button .icon {
+        height: 1.75rem;
+    }
+    .overlay-toggle.expanded {
+        bottom: 17rem;
+    }
+    .frame-wrapper .overlay {
+       height: 15rem;
+    }
+    .overlay .overlay-wrapper {
+        flex-direction: column;
+        padding: 0.75rem 1rem;
+    }
+    .overlay .overlay-details .clicks-field {
+        display: none;
+    }
+    .overlay .overlay-details .rating-field .detail-field {
+        display: none;
+    }
+    .overlay .overlay-img-wrapper {
+        width: 100%;
+        max-width: 18rem;
+        margin: 1rem auto 0.25rem;
+    }
+    .overlay .button-wrapper {
+        margin: 0.5rem auto;
+    }
+
+    #shareModal .modal {
+        padding: 1rem 1.5rem 1.5rem;
+    }
+    .modal .share-wrapper {
+        padding-right: 0;
+    }
+}
+
+@media only screen and (max-width: 350px) {
+    .overlay .overlay-img-wrapper {
+        margin-bottom: 0;
+    }
+    .round-button,
+    .share-link-button {
+        padding: 1.25rem;
+    }
+    .round-button .icon,
+    .share-link-button .icon {
+        height: 1.5rem;
+    }
 }
