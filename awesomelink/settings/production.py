@@ -10,7 +10,7 @@ from .base import *
 DEBUG = False
 
 ALLOWED_HOSTS += [
-    'awesomeli.nk',
+    'awesomel.ink',
     'awesomelink.netlify.com',
     'awesomelink.herokuapp.com',
 ]
