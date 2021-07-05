@@ -1,7 +1,15 @@
-
 MAX_REDIRECT_COUNT = 4
 CLIENT_ERROR_CODE_MIN = 400
 SERVER_ERROR_CODE_MAX = 512
+
+AWESOMELINK_DNE_ERROR = 'AwesomeLink does not exist'
+AWESOMELINK_UNAPPROVED_ERROR = 'AwesomeLink is awaiting approval'
+AWESOMELINK_UNIQUE_ERROR = 'AwesomeLink with the provided URL already exists'
+BLACKLIST_URL_ERROR = '%(domain)s links are not very awesome'
+INVALID_RATING_ERROR = 'Invalid \"rating\" parameter value'
+MAX_REDIRECT_ERROR = 'The provided URL exceeded the maximum number of redirects'
+URL_INVALID_ERROR = '\"%(url)s\" is not a valid URL'
+URL_STATUS_ERROR = 'The provided URL returned an error'
 
 # Because assholes will use any opportunity for self-promotion
 BLACKLIST_DOMAINS = [
