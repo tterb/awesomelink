@@ -1,37 +1,41 @@
-from django.core.validators import URLValidator
+from django.core.serializers.json import Serializer
+from django.db.models import DateTimeField
 from django.utils.timesince import timesince
-from rest_framework import serializers
 
-from .helpers import flatten_redirects
 from .models import AwesomeLink
-from .validators import validate_awesomeness
 
 
-class AwesomeLinkSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AwesomeLink
-        fields = ['id', 'url', 'created', 'updated', 'clicks', 'rating', 'rating_count']
+class AwesomeLinkListSerializer(Serializer):
 
-    # pylint: disable=no-self-use
-    def validate_url(self, value):
-        # Make sure the URL isn't a redirect to another page
-        url_validator = URLValidator()
-        url_validator(value)
-        value = flatten_redirects(value)
-        validate_awesomeness(value)
-        return value
+    excluded_fields = {'normalized_url', 'flag_count', 'is_embeddable', 'is_approved'}
 
-    def to_representation(self, instance):
-        """
-        Format AwesomeLink attributes in response
-        """
-        repr = super().to_representation(instance)
-        repr['created'] = timesince(instance.created)
-        repr['updated'] = timesince(instance.updated)
-        return repr
+    def get_dump_object(self, obj):
+        model_fields = AwesomeLink._meta.fields
+        for field in model_fields:
+            if field.name in self.excluded_fields:
+                # Remove excluded model-fields
+                del self._current[field.name]
+            elif field.__class__ == DateTimeField:
+                # Format DateTimeFields
+                self._current[field.name] = getattr(obj, field.name).strftime('%m/%d/%Y')
+            else:
+                self._current[field.name] = getattr(obj, field.name)
+        return self._current
 
+class AwesomeLinkSerializer:
 
-class AwesomeLinkListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AwesomeLink
-        fields = ['url']
+    excluded_fields = {'normalized_url', 'flag_count', 'is_embeddable', 'is_approved'}
+
+    def __init__(self, awesomelink, attach=[], exclude=[]):
+        self.excluded_fields.update(exclude)
+        # Remove 'attach' values from excluded fields
+        self.excluded_fields.difference_update(attach)
+        self.data = dict()
+        model_fields = awesomelink._meta.fields
+        for field in model_fields:
+            if field.__class__ == DateTimeField:
+                # Format DateTimeFields
+                self.data[field.name] = timesince(getattr(awesomelink, field.name))
+            elif field.name not in self.excluded_fields:
+                # Add model-fields that aren't excluded
+                self.data[field.name] = getattr(awesomelink, field.name)

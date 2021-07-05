@@ -1,24 +1,34 @@
 import re
-from django.utils.http import url_has_allowed_host_and_scheme
-from rest_framework import serializers
+import requests
+from django import forms
+from django.core.validators import URLValidator
 
-from .constants import BLACKLIST_DOMAINS
+from .constants import (
+    BLACKLIST_DOMAINS,
+    BLACKLIST_URL_ERROR,
+    URL_INVALID_ERROR,
+)
 
 
-def validate_safe_link(url):
-    return url_has_allowed_host_and_scheme(
-        url,
-        allowed_hosts=None,
-        require_https=False
-    )
+def validate_url(url):
+    try:
+        url_validator = URLValidator(schemes=['http', 'https'])
+        url_validator(url)
+        requests.get(url)
+    except Exception as url_error:
+        raise forms.ValidationError(
+            URL_INVALID_ERROR, params={'url':url},
+            code=400
+        ) from url_error
 
 def validate_awesomeness(url):
     """
     Check URL for blacklisted domains
     """
-    # blacklist_pattern = '|'.join([domain['pattern'] for domain in BLACKLIST_DOMAINS])
     for domain in BLACKLIST_DOMAINS:
-        # if re.match(blacklist_pattern, url):
         if re.match(domain['pattern'], url):
-            # raise serializers.ValidationError(f'That link is not very awesome')
-            raise serializers.ValidationError(f'{domain["name"]} links are not very awesome')
+            raise forms.ValidationError(
+                BLACKLIST_URL_ERROR,
+                params={'domain':domain['name']},
+                code=400
+            )
