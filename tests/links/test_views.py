@@ -27,8 +27,7 @@ from links.views import (
 from .constants import VALID_URLS
 
 
-class AwesomeLinkModelTest(TestCase):
-# class TestAwesomeLinkViews:
+class AwesomeLinkViewsTest(TestCase):
     """ Test module for AwesomeLink views """
 
     def setUp(self):
@@ -221,4 +220,4 @@ class AwesomeLinkModelTest(TestCase):
         # View returns a JSONResponse
         data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(data['error'], f'\"http://{invalid_url}\" is not a valid URL')
+        self.assertEqual(data['error'], f'\'http://{invalid_url}\' is not a valid URL')
