@@ -1,23 +1,40 @@
-from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
+import json
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
-from rest_framework.generics import ListCreateAPIView
 
-from .forms import RatingForm
+from .constants import (
+    AWESOMELINK_DNE_ERROR,
+    AWESOMELINK_UNAPPROVED_ERROR,
+)
+from .forms import (
+    AwesomeLinkForm,
+    FlagForm,
+    RatingForm,
+)
 from .helpers import get_random_link
 from .models import AwesomeLink
-from .serializers import AwesomeLinkSerializer, AwesomeLinkListSerializer
+from .serializers import (
+    AwesomeLinkSerializer,
+    AwesomeLinkListSerializer,
+)
 
 
-class awesomelink_list(ListCreateAPIView):
+@api_view(['GET'])
+def awesomelink_list(request):
     """
     Retrieve an list of all AwesomeLinks
     """
-    serializer_class = AwesomeLinkListSerializer
+    serializer = AwesomeLinkListSerializer()
     queryset = AwesomeLink.objects.filter(is_approved=True)
+    data = dict()
+    data['count'] = queryset.count()
+    data['links'] = json.loads(serializer.serialize(queryset))
+    return JsonResponse(data)
 
+@api_view(['GET'])
 def awesomelink_count(request):
     """
     Get the total number of AwesomeLinks
@@ -27,16 +44,28 @@ def awesomelink_count(request):
     })
 
 @api_view(['GET'])
+def awesomelink_pending(request):
+    """
+    Retrieve a list of pending AwesomeLinks
+    """
+    if request.user and request.user.is_superuser:
+        awesomelinks = list(AwesomeLink.objects.filter(is_approved=False).order_by('created'))
+        context = { 'awesomelinks': awesomelinks }
+        return render(request, 'links/pending.html', context)
+    return HttpResponse('401 Unauthorized', status=401)
+
+
+@api_view(['GET'])
 def awesomelink_detail(request, pk):
     """
     Retrieve details for the specified AwesomeLink
     """
     try:
         awesomelink = AwesomeLink.objects.get(pk=pk)
-        serializer = AwesomeLinkSerializer(awesomelink)
+        serializer = AwesomeLinkSerializer(awesomelink, attach=['is_approved', 'is_embeddable'])
         return JsonResponse(serializer.data)
-    except AwesomeLink.DoesNotExist as awesomelink_dne:
-        raise Http404('AwesomeLink does not exist') from awesomelink_dne
+    except AwesomeLink.DoesNotExist:
+        return JsonResponse({ 'error': AWESOMELINK_DNE_ERROR }, status=404)
 
 @never_cache
 def awesomelink_view(request):
@@ -51,20 +80,23 @@ def awesomelink_view(request):
         return render(request, 'links/frame.html', context)
     return HttpResponseRedirect(awesomelink.url)
 
+@api_view(['GET'])
 def awesomelink_specific(request, pk):
     """
     Redirect to a specific AwesomeLink
     """
     try:
         # Should only redirect if link is approved
-        awesomelink = AwesomeLink.objects.get(pk=pk, is_approved=True)
-        context = {'awesomelink': awesomelink}
-        awesomelink.click()
-        if awesomelink.is_embeddable:
-            return render(request, 'links/frame.html', context)
-        return HttpResponseRedirect(awesomelink.url)
-    except AwesomeLink.DoesNotExist as awesomelink_dne:
-        raise Http404('AwesomeLink does not exist') from awesomelink_dne
+        awesomelink = AwesomeLink.objects.get(pk=pk)
+        if awesomelink.is_approved:
+            context = {'awesomelink': awesomelink}
+            awesomelink.click()
+            if awesomelink.is_embeddable:
+                return render(request, 'links/frame.html', context)
+            return HttpResponseRedirect(awesomelink.url)
+        return JsonResponse({ 'error': AWESOMELINK_UNAPPROVED_ERROR }, status=403)
+    except AwesomeLink.DoesNotExist:
+        return JsonResponse({ 'error': AWESOMELINK_DNE_ERROR }, status=404)
 
 @csrf_exempt
 @api_view(['POST'])
@@ -80,11 +112,11 @@ def awesomelink_rate(request):
             awesomelink.rate(form_data['rating'])
             serializer = AwesomeLinkSerializer(awesomelink)
             return JsonResponse(serializer.data)
-        except AwesomeLink.DoesNotExist as awesomelink_dne:
-            raise Http404('AwesomeLink does not exist') from awesomelink_dne
-    response = HttpResponse('Invalid \"rating\" parameter value')
-    response.status_code = 400
-    return response
+        except AwesomeLink.DoesNotExist:
+            return JsonResponse({'error': AWESOMELINK_DNE_ERROR}, status=404)
+    # Return the first validation message that is thrown
+    validation_error = list(form.errors.values())[0][0]
+    return JsonResponse({'error': validation_error}, status=400)
 
 @csrf_exempt
 @api_view(['POST'])
@@ -92,15 +124,21 @@ def awesomelink_flag(request):
     """
     Flag the AwesomeLink with the specified pk
     """
-    try:
-        data = request.data
-        awesomelink = AwesomeLink.objects.get(pk=data['pk'])
-        # Don't want to actually flag anything until the functionality is implemented
-        # awesomelink.flag()
-        serializer = AwesomeLinkSerializer(awesomelink)
-        return JsonResponse(serializer.data)
-    except AwesomeLink.DoesNotExist as awesomelink_dne:
-        raise Http404('AwesomeLink does not exist') from awesomelink_dne
+    form = FlagForm(request.data)
+    if form.is_valid():
+        form_data = form.cleaned_data
+        try:
+            # There shouldn't be a case for flagging an unapproved link
+            awesomelink = AwesomeLink.objects.get(pk=form_data['pk'], is_approved=True)
+            # Don't want to actually flag anything until the functionality is implemented
+            # awesomelink.flag()
+            serializer = AwesomeLinkSerializer(awesomelink)
+            return JsonResponse(serializer.data)
+        except AwesomeLink.DoesNotExist:
+            return JsonResponse(AWESOMELINK_DNE_ERROR, code=404)
+    # Return the first validation message that is thrown
+    validation_error = list(form.errors.values())[0][0]
+    return JsonResponse({'error': validation_error}, status=400)
 
 @csrf_exempt
 @api_view(['POST'])
@@ -108,8 +146,11 @@ def awesomelink_submit(request):
     """
     Submit a new AwesomeLink
     """
-    serializer = AwesomeLinkSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
+    form = AwesomeLinkForm(data=request.data)
+    if form.is_valid():
+        awesomelink = form.save()
+        serializer = AwesomeLinkSerializer(awesomelink)
         return JsonResponse(serializer.data, status=201)
-    return JsonResponse(serializer.errors, status=400)
+    # Return the first validation message that is thrown
+    validation_error = list(form.errors.values())[0][0]
+    return JsonResponse({'error': validation_error}, status=400)

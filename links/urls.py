@@ -8,6 +8,7 @@ from .views import (
     awesomelink_count,
     awesomelink_detail,
     awesomelink_flag,
+    awesomelink_pending,
     awesomelink_rate,
     awesomelink_specific,
     awesomelink_submit,
@@ -16,12 +17,13 @@ from .views import (
 
 urlpatterns = [
     path('', awesomelink_view),
-    path('list', awesomelink_list.as_view()),
+    path('list', awesomelink_list),
+    path('pending', awesomelink_pending),
     path('count', awesomelink_count),
+    path('flag', awesomelink_flag),
     path('rate', awesomelink_rate),
     path('submit', awesomelink_submit),
     path('<int:pk>', awesomelink_specific),
-    path('flag/<int:pk>', awesomelink_flag),
     path('detail/<int:pk>', awesomelink_detail),
 ]
 

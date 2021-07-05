@@ -9,14 +9,14 @@ from .constants import (
 )
 
 
-def get_random_link(awesome_links):
+def get_random_link(awesomelinks):
     """
     Get a random AwesomeLink
     """
-    link = random.choice(awesome_links)
+    link = random.choice(awesomelinks)
     # Entropy management
-    while not is_link_alive(link):
-        link = random.choice(awesome_links)
+    while not is_alive(link.url):
+        link = random.choice(awesomelinks)
     return link
 
 def is_error_code(code):
@@ -25,16 +25,16 @@ def is_error_code(code):
     """
     return CLIENT_ERROR_CODE_MIN <= code <= SERVER_ERROR_CODE_MAX
 
-def is_link_alive(awesome_link):
+def is_alive(url):
     """
     Check for a dead AwesomeLink
     """
-    response = requests.get(awesome_link.url)
+    response = requests.get(url)
     return not is_error_code(response.status_code)
 
 def flatten_redirects(url):
     """
-    Flattens shortened links or redirects and return the destination URL
+    Flattens shortened links or redirects and return the destination URL and redirect count
     """
     current = url
     prev = ''
@@ -43,11 +43,11 @@ def flatten_redirects(url):
         while bool(current != prev):
             # Limit the amount of redirects or we could be here all day
             if redirect_count > MAX_REDIRECT_COUNT:
-                raise Exception('Maximum redirection limit exceeded')
+                break
             prev = current
             current = requests.get(prev).url
             redirect_count += 1
-        return current
+        return (current, redirect_count)
     except Exception as url_error:
         raise Exception(f'Unable to open {url}') from url_error
 
@@ -60,7 +60,7 @@ def normalize_url(url):
         # Strip the protocol, index.html, and trailing slashes
         return ParseResult('', *parsed_url[1:]).geturl().strip('index.html').strip('/')
     except Exception as parse_error:
-        raise Exception(f'Unable to normalize {url}') from parse_error
+        raise Exception(f'Unable to normalize \"{url}\"') from parse_error
 
 def can_be_embedded(url):
     """

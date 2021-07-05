@@ -1,7 +1,9 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 from django.core.validators import URLValidator
 
+from .constants import AWESOMELINK_UNIQUE_ERROR
 from .helpers import (
     can_be_embedded,
     flatten_redirects,
@@ -47,9 +49,15 @@ class AwesomeLink(models.Model):
         self.is_approved = True
         self.save(update_fields=['is_approved'])
 
+    def clean(self):
+        qs = self._meta.model.objects.exclude(pk=self.pk)
+        qs = qs.filter(normalized_url=self.normalized_url)
+        if qs.exists():
+            raise ValidationError(AWESOMELINK_UNIQUE_ERROR)
+
     def save(self, *args, **kwargs):
         if not self.pk:
-            self.url =  flatten_redirects(self.url)
+            self.url, _ =  flatten_redirects(self.url)
             self.created = timezone.now()
             self.normalized_url = normalize_url(self.url)
             self.is_embeddable = can_be_embedded(self.url)
