@@ -37,7 +37,20 @@ def awesomelink_list(request):
     Retrieve an list of all AwesomeLinks
     """
     serializer = AwesomeLinkListSerializer()
+    sort_order = request.query_params.get('sort')
     queryset = AwesomeLink.objects.filter(is_approved=True)
+    if sort_order:
+        try:
+            queryset = queryset.order_by(f'-{sort_order}')
+        except FieldError:
+            error_message = INVALID_PARAM_ERROR.format(
+                param='sort',
+                value=sort_order,
+            ),
+            return JsonResponse(
+                {'error':error_message[0]},
+                status=400
+            )
     data = dict()
     data['count'] = queryset.count()
     data['links'] = json.loads(serializer.serialize(queryset))
