@@ -1,12 +1,12 @@
 import requests_mock
+from django.forms import ValidationError
 from django.db import transaction
 from django.db.utils import IntegrityError
 from django.test import TestCase
-from rest_framework.exceptions import ValidationError
 
+from links.forms import AwesomeLinkForm
 from links.helpers import can_be_embedded
 from links.models import AwesomeLink
-from links.serializers import AwesomeLinkSerializer
 from links.validators import validate_awesomeness
 from .constants import (
     BLACKLISTED_URLS,
@@ -29,8 +29,8 @@ class AwesomeLinkModelTest(TestCase):
             True,
         ]
         for url in invalid_urls:
-            serializer = AwesomeLinkSerializer(data={'url': url})
-            self.assertFalse(serializer.is_valid())
+            link = AwesomeLinkForm(data={'url': url})
+            self.assertFalse(link.is_valid())
 
     def test_blacklisted_urls(self):
         for url in BLACKLISTED_URLS:
@@ -98,7 +98,6 @@ class AwesomeLinkModelTest(TestCase):
         # Mock request to return headers that prevent embedding
         mock.get('https://joyoftesting.com/hidden-valley/', headers=NON_FRAMEABLE_HEADERS)
         self.assertFalse(can_be_embedded(self.awesomelink.url))
-
 
     def test_approval(self):
         # Approval should initially be false by default
