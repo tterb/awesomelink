@@ -1,25 +1,18 @@
+from django import forms
 from django.contrib import admin
 from .models import AwesomeLink
 
 
-class AwesomeLinkModelAdmin(admin.ModelAdmin):
-    # exclude = ('rating', 'rating_count', 'slug', 'updated')
+class AwesomeLinkAdminForm(forms.ModelForm):
     class Meta:
         model = AwesomeLink
+        fields = ['url', 'is_approved']
 
-    def get_readonly_fields(self, request, obj=None):
-        fields = []
-        if obj:
-            fields += [
-                'created',
-                'updated',
-                'normalized_url',
-                'clicks',
-                'rating',
-                'rating_count',
-                'flag_count',
-                'is_embeddable'
-            ]
-        return fields
+    def clean_normalized_url(self):
+        if not self.cleaned_data['normalized_url']:
+            raise forms.ValidationError('An AwesomeLink with this URL already exists')
+        return self.cleaned_data['normalized_url']
 
-admin.site.register(AwesomeLink, AwesomeLinkModelAdmin)
+@admin.register(AwesomeLink)
+class AwesomeLinkAdmin(admin.ModelAdmin):
+    form = AwesomeLinkAdminForm
