@@ -8,7 +8,7 @@ import Input from 'components/Input'
 import { validateUrl } from '../utils';
 
 
-const Contribute = ({ id }) => { 
+const Contribute = ({ id }) => {
 
     const [inputValue, setInputValue] = useState('');
     const [inputValid, setInputValid] = useState(false);
@@ -41,7 +41,7 @@ const Contribute = ({ id }) => {
             <div className='w-9/10 md:w-5/6 lg:4/5 max-w-250 mx-auto mt-10 mb-32'>
                 <h1 className='relative text-6xl md:text-8xl text-chrome font-black mt-0 mb-2 md:mb-6'>Contribute</h1>
                 <p className='text-lg md:text-xl text-white text-opacity-85'>
-                    Do you have an awesome link that you would like to share?
+                    Do you have an awesome link that you want to share?
                 </p>
                 <div className='flex flex-col md:flex-row w-19/20 md:w-full h-auto max-h-16 mx-auto my-10'>
                     <Input
