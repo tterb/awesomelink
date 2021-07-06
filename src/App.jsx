@@ -25,7 +25,6 @@ function App() {
       <Navbar sectionLinks={sectionLinks} />
       <Hero id='hero' />
       <Motivation id='motivation' />
-      <Usage id='usage' />
       <Contribute id='contribute' />
       <Footer />
     </div>
