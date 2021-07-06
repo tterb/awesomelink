@@ -20,7 +20,7 @@ code {
 
 .text-chrome {
 	/* background-image: linear-gradient(#0D3F7D 0%, #3489CF 25%, #D1E0FD 45%, #FFFEFF 50%, #9D28A6 55%, #E25DBF 64%, #FFBFEC 80%, #FFDCFF 100%); */
-  background-image: linear-gradient(#4F53B5 0%, #646AEF 15%, #D1E0FD 50%, #FFFEFF 55%, #9D28A6 60%, #E25DBF 70%, #FFBFEC 85%, #FFD3FA 95%);
+  background-image: linear-gradient(#4F53B5 0%, #646AEF 10%, #D1E0FD 45%, #FFFEFF 50%, #9D28A6 55%, #E25DBF 70%, #FFBFEC 85%, #FFD3FA 95%);
   /* background-image: linear-gradient(#2F134E 0%, #6C508C 25%, #DACDFD 45%, #FFFEFF 50%, #9D28A6 55%, #E25DBF 64%, #FFBFEC 80%, #FFDCFF 100%); */
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
