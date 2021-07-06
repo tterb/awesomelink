@@ -13,7 +13,7 @@ const Input = ({ className, type, name, value, onChange, placeholder, subtext, i
                 value={value}
                 onChange={onChange}
                 placeholder={placeholder}
-                autoComplete={autocomplete}
+                autoComplete={autocomplete.toString()}
             />
             {!isValid && subtext.length ?
                 <span className='text-sm text-red-400 text-center md:text-left w-full mx-auto pt-1 pl-0 md:pl-1'>{subtext}</span>
