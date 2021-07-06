@@ -56,7 +56,7 @@ const InlineMenu = ({ sectionLinks }) => (
             {sectionLinks.map(({ id, label }) => (
                 <MenuLink
                     key={id}
-                    className='inline-block relative text-gray-1000 text-opacity-90 text-base md:text-lg lg:text-xl text-center font-semibold w-auto mr-5 last:mr-0 p-0 cursor-pointer z-9999'
+                    className='inline-block relative text-gray-1000 text-opacity-90 text-base md:text-lg xl:text-xl text-center font-semibold w-auto mr-5 last:mr-0 p-0 cursor-pointer z-9999'
                     smooth={true}
                     spy={true}
                     offset={50}
