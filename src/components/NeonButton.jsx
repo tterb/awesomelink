@@ -33,8 +33,8 @@ const Button = styled.button`
 const NeonButton = ({ className, content, onClick, children }) => {
     const buttonText = content ? content : children;
     return (
-        <Button 
-            className={`relative font-rage text-xl text-accent w-auto rounded-md py-2 px-6 overflow-hidden focus:outline-none hover:bg-magenta-500 hover:text-white active:bg-magenta-500 active:text-white${className ? ` ${className}` : ''}`}
+        <Button
+            className={`relative bg-white bg-opacity-10 font-rage text-xl text-accent w-auto rounded-md py-2 px-6 overflow-hidden focus:outline-none hover:bg-magenta-500 hover:text-white active:bg-magenta-500 active:text-white${className ? ` ${className}` : ''}`}
             onClick={onClick}
         >
             <span className='line-left absolute bg-gradient-to-l from-transparent to-magenta-400 w-full h-px -left-full bottom-0' />
