@@ -12,7 +12,7 @@ const Motivation = ({ id }) => (
                 The internet was once the new great frontier. It was exciting, unpredictable, disorganized, and fostered exploration.<br />
                 Though as the internet has <span className='strikethrough'>d</span>evolved, digital exploration has deteriorated to scrolling sterilized feeds from major social-media networks.<br />
                 As a result, the unique discoveries and experiences that could be expected from the early internet have seemingly fallen by the wayside.
-                <span className='font-rage text-accent pl-2'>AwesomeLink</span> is an attempt to bring back some of that unpredictability and exploration.
+                <a href='http://awesomel.ink/' className='font-rage text-accent pl-2' target='_blank' rel='noopener noreferrer'>AwesomeLink</a> is an attempt to bring back some of that unpredictability and exploration.
             </p>
         </div>
     </Section>
