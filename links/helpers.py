@@ -49,7 +49,7 @@ def flatten_redirects(url):
             redirect_count += 1
         return (current, redirect_count)
     except Exception as url_error:
-        raise Exception(f'Unable to open {url}') from url_error
+        raise Exception(f'Unable to open \'{url}\'') from url_error
 
 def normalize_url(url):
     """
@@ -60,7 +60,7 @@ def normalize_url(url):
         # Strip the protocol, index.html, and trailing slashes
         return ParseResult('', *parsed_url[1:]).geturl().strip('index.html').strip('/')
     except Exception as parse_error:
-        raise Exception(f'Unable to normalize \"{url}\"') from parse_error
+        raise Exception(f'Unable to normalize \'{url}\'') from parse_error
 
 def can_be_embedded(url):
     """
@@ -74,3 +74,18 @@ def can_be_embedded(url):
         headers['X-Frame-Options'].upper() == 'ALLOW-FROM'):
         return False
     return True
+
+def upgrade_protocol(url):
+    """
+    Attempt to upgrade the URL protocol from HTTP to HTTPS
+    """
+    parsed_url = urlparse(url)
+    if parsed_url.scheme == 'http':
+        upgraded_url = parsed_url._replace(scheme='https').geturl()
+        try:
+            response = requests.get(upgraded_url)
+            if not is_error_code(response.status_code):
+                return upgraded_url
+        except:
+            return url
+    return url

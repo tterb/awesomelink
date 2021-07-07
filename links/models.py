@@ -7,7 +7,8 @@ from .constants import AWESOMELINK_UNIQUE_ERROR
 from .helpers import (
     can_be_embedded,
     flatten_redirects,
-    normalize_url
+    normalize_url,
+    upgrade_protocol,
 )
 
 
@@ -58,6 +59,7 @@ class AwesomeLink(models.Model):
     def save(self, *args, **kwargs):
         if not self.pk:
             self.url, _ =  flatten_redirects(self.url)
+            self.url = upgrade_protocol(self.url)
             self.created = timezone.now()
             self.normalized_url = normalize_url(self.url)
             self.is_embeddable = can_be_embedded(self.url)
