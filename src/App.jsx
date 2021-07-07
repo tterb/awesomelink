@@ -16,7 +16,7 @@ function App() {
 
   const sectionLinks = [
     { id: 'motivation', label: 'Motivation' },
-    { id: 'usage', label: 'Usage' },
+    // { id: 'usage', label: 'Usage' },
     { id: 'contribute', label: 'Contribute' },
   ]
 
