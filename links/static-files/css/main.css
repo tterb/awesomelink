@@ -29,6 +29,29 @@ a:active {
     color: #FD427A;
 }
 
+input[type="text"] {
+    background: rgba(0,0,0,0.25);
+    font-size: 1.25rem;
+    min-height: 3rem;
+    border-radius: 0.3rem;
+    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+    padding: 0.25rem 1.5rem;
+    outline: none;
+}
+input[type="text"]:focus {
+    outline: none;
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: rgba(255,255,255,0.45);
+    opacity: 1; /* Firefox */
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: rgba(255,255,255,0.45);
+}
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: rgba(255,255,255,0.45);
+}
+
 .btn {
     background: transparent;
     color: #FD427A;
@@ -85,6 +108,10 @@ a:active {
 }
 .mr-auto {
     margin-right: auto;
+}
+
+.error-message {
+    color: #F2433B;
 }
 
 .frame-wrapper {
@@ -400,9 +427,6 @@ a:active {
     justify-content: center;
     align-items: center;
 }
-.modal .error-message {
-    color: #F2433B;
-}
 
 
 /**
@@ -497,6 +521,43 @@ a:active {
 .round-button.stacked:hover .icon.outline.icon-link,
 .round-button.stacked:active .icon.outline.icon-link  {
     fill: transparent;
+}
+
+/**
+ * Submit page
+ **/
+.submit-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.submit-page .page-wrapper {
+    width: 75%;
+}
+.submit-page .page-title {
+    font-size: 5rem;
+    line-height: 1.25;
+    margin-bottom: 0.5rem;
+}
+.submit-page .page-description {
+    color: rgba(255,255,255,0.8);
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+.submit-page #submitForm {
+    width: 80%;
+    max-width: 1000px;
+    margin: auto;
+}
+.submit-page #urlInput {
+    color: #FD427A;
+    width: 100%;
+    border: none;
+}
+.submit-page .submit-button {
+    margin: 1.75rem auto;
+    padding: 0.75rem 1.5rem;
 }
 
 /**

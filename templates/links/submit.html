@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="page-container submit-page">
+    <div class="page-wrapper">
+        <h3 class="page-title text-rage">Submit</h3>
+        <p class="page-description">Do you have an awesome link to share?</p>
+        <form id="submitForm" action="/submit" method="post">
+            {% csrf_token %}
+            <input
+                class=""
+                id="urlInput"
+                name="url"
+                type="text"
+                placeholder="https://your-awesome-link.com/"
+                required
+            />
+            <p id="errorMessage" class="error-message"></p>
+            <input
+                id="submitLink"
+                class="btn submit-button flex text-rage"
+                type="submit"
+                value="Submit it!"
+            />
+        </form>
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+    <script src="{% static 'js/submit.js' %}"></script>
+{% endblock scripts %}
