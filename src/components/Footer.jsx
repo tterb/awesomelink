@@ -28,7 +28,7 @@ const Footer = () => {
                 </Link>
                 <div className='flex flex-col items-start justify-center w-auto mx-auto md:ml-auto md:mr-0 pr-2'>
                     <span className='text-lg text-accent font-semibold w-auto mx-auto md:ml-0'>Share on:</span>
-                    <span className='flex flex-row text-xl text-accent my-3'>
+                    <span className='flex flex-row text-xl text-accent my-2'>
                         <a className='text-magenta-500 hover:text-magenta-400' href='#'>
                             <FacebookOutline className='footer-icon w-8 mr-2 transition-all duration-250 cursor-pointer' />
                         </a>

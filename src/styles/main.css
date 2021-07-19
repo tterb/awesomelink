@@ -27,6 +27,16 @@ code {
 	-webkit-text-stroke: 2px #1D0B40;
 }
 
+h1 {
+  background: linear-gradient(#FD427A 30%, #FF6392 50%, #FD427A 70%);
+  -webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.rage-link:hover {
+  text-shadow: 0 0 8px #FD427A;
+}
+
 .strikethrough {
   @apply relative text-white text-opacity-60;
 }
