@@ -2,6 +2,8 @@
 $(document).ready(function() {
     var rateBtn = $('#rateBtn');
     var rateModal = $('#rateModal');
+    var ratingContainer = $('#ratingStars');
+    var ratingCount = $('#ratingCount');
     var ratingForm = $('#ratingForm');
     var ratingInput = $('#ratingInput');
     var ratingEmoji = $('#ratingEmoji');
@@ -51,15 +53,37 @@ $(document).ready(function() {
             type: 'POST',
             data: data,
             success: function(response) {
-                console.log(response);
                 rateModal.removeClass('open');
+                updatedRating = response.rating;
+                updatedCount = response.rating_count;
+                updateRatingTotal(updatedRating, updatedCount);
             },
             error: function(response) {
-                console.log(response.responseText);
                 ratingError.html(response.responseText);
             },
         });
         return false;
+    }
+
+    function updateRatingTotal(rating, count) {
+        // Update the count
+        ratingCount.data('count', count);
+        ratingCount.html(count);
+        // Update rating stars
+        ratingContainer.data('value', rating)
+        var roundedRating = Math.round(rating * 2) / 2;
+        var starCount = 5;
+        for(var i=1; i <= starCount; i++) {
+            var star = $('#starRating' + i.toString());
+            // Remove previously classes
+            star.removeClass('fill');
+            star.removeClass('half');
+            if (i <= roundedRating) {
+                star.addClass('fill');
+            } else if ((i - 0.5) === roundedRating) {
+                star.addClass('half');
+            }
+        }
     }
 
     rateBtn.on('click', toggleRateModal);

@@ -77,7 +77,13 @@
                                     ></span>
                                 </div>
                                 <span class="rating-count">
-                                    (<span class="rating-count-value">{{ awesomelink.rating_count }}</span>)
+                                    (<span
+                                        id="ratingCount"
+                                        class="rating-count-value"
+                                        data-count="{{ awesomelink.rating_count }}"
+                                    >
+                                        {{ awesomelink.rating_count }}
+                                    </span>)
                                 </span>
                         </span>
                     {% endif %}

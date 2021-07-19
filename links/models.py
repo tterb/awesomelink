@@ -39,7 +39,7 @@ class AwesomeLink(models.Model):
         return self.rating
 
     def calculate_rating(self, new_rating):
-        return ((self.rating * (self.rating_count - 1)) + new_rating) / (self.rating_count)
+        return ((self.rating * (self.rating_count - 1)) + new_rating) / self.rating_count
 
     def flag(self):
         self.flag_count += 1
