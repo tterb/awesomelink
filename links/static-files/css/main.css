@@ -607,7 +607,8 @@ input[type="text"]:focus {
         bottom: 17rem;
     }
     .frame-wrapper .overlay {
-       height: 15rem;
+        height: auto;
+        min-height: 15rem;
     }
     .overlay .overlay-wrapper {
         flex-direction: column;
@@ -615,6 +616,9 @@ input[type="text"]:focus {
     }
     .overlay .overlay-details .clicks-field {
         display: none;
+    }
+    .overlay .overlay-details .rating-field {
+        margin: 0 auto 0.75rem;
     }
     .overlay .overlay-details .rating-field .detail-field {
         display: none;
