@@ -106,8 +106,6 @@ def update_visited_links(visited, id):
     """
     Updates the queue of visited awesomelink ID's with the new ID and returns a stringified queue of at most 20 ID's.
     """
-    if not len(visited):
-        return str(id)
     # Append new ID to the front
     visited.insert(0, id)
     if len(visited) > 20:

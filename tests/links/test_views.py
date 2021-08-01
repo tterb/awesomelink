@@ -99,7 +99,6 @@ class AwesomeLinkViewsTest(TestCase):
         # Should redirect to the url
         self.assertEqual(response.status_code, 302)
 
-
     def test_awesomelink_detail(self):
         awesomelink = self.approved_links[0]
         request_url = reverse(awesomelink_detail, kwargs={'pk':awesomelink.pk})
@@ -129,7 +128,6 @@ class AwesomeLinkViewsTest(TestCase):
         data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(data['error'], AWESOMELINK_DNE_ERROR)
-
 
     def test_awesomelink_specific(self):
         request_url = reverse(awesomelink_specific, kwargs={'pk':self.approved_links[0].pk})
