@@ -6,6 +6,7 @@ from .constants import (
     MAX_REDIRECT_COUNT,
     CLIENT_ERROR_CODE_MIN,
     SERVER_ERROR_CODE_MAX,
+    VISITED_LINKS_COOKIE,
 )
 
 
@@ -89,3 +90,26 @@ def upgrade_protocol(url):
         except:
             return url
     return url
+
+def get_visited_links(request):
+    """
+    Retrieves the viewed link ID's from the user cookies and converts the string to a list of integers
+    """
+    data = request.COOKIES.get(VISITED_LINKS_COOKIE)
+    try:
+        return list(map(int, data.split(',')))
+    except:
+        # If we aren't able to parse the cookie data, than we reset it to an empty list
+        return list()
+
+def update_visited_links(visited, id):
+    """
+    Updates the queue of visited awesomelink ID's with the new ID and returns a stringified queue of at most 20 ID's.
+    """
+    if not len(visited):
+        return str(id)
+    # Append new ID to the front
+    visited.insert(0, id)
+    if len(visited) > 20:
+        visited.pop()
+    return ','.join(map(str, visited))

@@ -19,13 +19,18 @@ from .constants import (
     AWESOMELINK_UNAPPROVED_ERROR,
     AWESOMELINK_UNIQUE_ERROR,
     INVALID_PARAM_ERROR,
+    VISITED_LINKS_COOKIE,
 )
 from .forms import (
     AwesomeLinkForm,
     FlagForm,
     RatingForm,
 )
-from .helpers import get_random_link
+from .helpers import (
+    get_random_link,
+    get_visited_links,
+    update_visited_links,
+)
 from .models import AwesomeLink
 from .serializers import (
     AwesomeLinkSerializer,
@@ -96,13 +101,20 @@ def awesomelink_view(request):
     """
     Redirect to a random AwesomeLink
     """
-    awesomelinks = AwesomeLink.objects.filter(is_approved=True)
+    visited = get_visited_links(request)
+    approvedlinks = AwesomeLink.objects.filter(is_approved=True)
+    awesomelinks = approvedlinks.exclude(pk__in=visited)
     awesomelink = get_random_link(awesomelinks)
     context = {'awesomelink': awesomelink}
     awesomelink.click()
     if awesomelink.is_embeddable:
-        return render(request, 'links/frame.html', context)
-    return HttpResponseRedirect(awesomelink.url)
+        response = render(request, 'links/frame.html', context)
+    else:
+        response = HttpResponseRedirect(awesomelink.url)
+    # Update the visited links cookie data
+    visitedData = update_visited_links(visited, awesomelink.pk)
+    response.set_cookie(VISITED_LINKS_COOKIE, visitedData)
+    return response
 
 @api_view(['GET'])
 def awesomelink_specific(request, pk):

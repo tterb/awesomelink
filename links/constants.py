@@ -2,6 +2,8 @@ MAX_REDIRECT_COUNT = 4
 CLIENT_ERROR_CODE_MIN = 400
 SERVER_ERROR_CODE_MAX = 512
 
+VISITED_LINKS_COOKIE = 'awsmlnk_viewed'
+
 AWESOMELINK_DNE_ERROR = 'AwesomeLink does not exist'
 AWESOMELINK_UNAPPROVED_ERROR = 'AwesomeLink is awaiting approval'
 AWESOMELINK_UNIQUE_ERROR = 'AwesomeLink with the provided URL already exists'
