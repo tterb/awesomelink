@@ -1,0 +1,23 @@
+/* Nexa */
+@font-face {
+    font-family: 'Nexa';
+    font-weight: 400;
+    font-style: normal;
+    src: url('../fonts/Nexa/Nexa-Regular.woff2') format('woff2'),
+         url('../fonts/Nexa/Nexa-Regular.woff') format('woff');
+}
+@font-face {
+    font-family: 'Nexa';
+    font-weight: 400;
+    font-style: italic;
+    src: url('../fonts/Nexa/Nexa-RegularItalic.woff2') format('woff2'),
+         url('../fonts/Nexa/Nexa-RegularItalic.woff') format('woff');
+}
+
+/* Road Rage */
+@font-face {
+    font-family: 'Road Rage';
+    font-style: normal;
+    src: url('../fonts/RoadRage/RoadRage.woff2') format('woff2'),
+         url('../fonts/RoadRage/RoadRage.woff') format('woff');
+}
