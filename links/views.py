@@ -104,6 +104,8 @@ def awesomelink_view(request):
     visited = get_visited_links(request)
     approvedlinks = AwesomeLink.objects.filter(is_approved=True)
     awesomelinks = approvedlinks.exclude(pk__in=visited)
+    if request.is_secure():
+        awesomelinks = awesomelinks.filter(is_secure=True)
     awesomelink = get_random_link(awesomelinks)
     context = {'awesomelink': awesomelink}
     awesomelink.click()
