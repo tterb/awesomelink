@@ -7,7 +7,7 @@ from .models import AwesomeLink
 
 class AwesomeLinkListSerializer(Serializer):
 
-    excluded_fields = {'normalized_url', 'flag_count', 'is_embeddable', 'is_approved'}
+    excluded_fields = {'normalized_url', 'flag_count', 'is_embeddable', 'is_approved', 'is_secure'}
 
     def get_dump_object(self, obj):
         model_fields = AwesomeLink._meta.fields
@@ -24,7 +24,7 @@ class AwesomeLinkListSerializer(Serializer):
 
 class AwesomeLinkSerializer:
 
-    excluded_fields = {'normalized_url', 'flag_count', 'is_embeddable', 'is_approved'}
+    excluded_fields = {'normalized_url', 'flag_count', 'is_embeddable', 'is_approved', 'is_secure'}
 
     def __init__(self, awesomelink, attach=[], exclude=[]):
         self.excluded_fields.update(exclude)

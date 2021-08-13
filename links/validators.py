@@ -17,7 +17,8 @@ def validate_url(url):
         requests.get(url)
     except Exception as url_error:
         raise forms.ValidationError(
-            URL_INVALID_ERROR, params={'url':url},
+            URL_INVALID_ERROR,
+            params={'url':url},
             code=400
         ) from url_error
 

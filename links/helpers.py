@@ -91,6 +91,13 @@ def upgrade_protocol(url):
             return url
     return url
 
+def is_secure(url):
+    """
+    Detect whether a URL uses secure protocol
+    """
+    parsed_url = urlparse(url)
+    return parsed_url.scheme == 'https'
+
 def get_visited_links(request):
     """
     Retrieves the viewed link ID's from the user cookies and converts the string to a list of integers

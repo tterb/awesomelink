@@ -51,7 +51,7 @@ class AwesomeLinkViewsTest(TestCase):
         expected_data = dict()
         expected_data['count'] = len(self.approved_links)
         expected_data['links'] = []
-        excluded_fields = {'normalized_url', 'flag_count', 'is_approved', 'is_embeddable'}
+        excluded_fields = {'normalized_url', 'flag_count', 'is_approved', 'is_embeddable', 'is_secure'}
         for link in self.approved_links:
             expected_link = dict()
             for field in AwesomeLink._meta.fields:
@@ -99,6 +99,24 @@ class AwesomeLinkViewsTest(TestCase):
         # Should redirect to the url
         self.assertEqual(response.status_code, 302)
 
+    @mock.patch('links.helpers.is_alive')
+    def test_awesomelink_view_secure(self, mock_is_alive):
+        mock_is_alive.return_value = True
+        request_url = reverse(awesomelink_view)
+        # Set only the first awesomelink as secure
+        for index, link in enumerate(self.approved_links):
+            if index == 0:
+                link.is_secure = True
+            else:
+                link.is_secure = False
+            link.is_embeddable = False
+            link.save(update_fields=['is_embeddable', 'is_secure'])
+        self.client.is_secure = True
+        response = self.client.get(request_url, **{'wsgi.url_scheme': 'https'})
+        # Should redirect to the only secure link
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, self.approved_links[0].url)
+
     def test_awesomelink_detail(self):
         awesomelink = self.approved_links[0]
         request_url = reverse(awesomelink_detail, kwargs={'pk':awesomelink.pk})
@@ -111,7 +129,7 @@ class AwesomeLinkViewsTest(TestCase):
         # Because the serializer processes the DateTimeFields using timesince
         fields_dict['created'] = timesince(awesomelink.created)
         fields_dict['updated'] = timesince(awesomelink.created)
-        excluded_fields = {'normalized_url', 'flag_count'}
+        excluded_fields = {'normalized_url', 'flag_count', 'is_secure'}
         # Ensure that the correct fields are returned from the serializer
         for key in fields_dict:
             if key in excluded_fields:

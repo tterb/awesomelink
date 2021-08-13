@@ -7,6 +7,7 @@ from .constants import AWESOMELINK_UNIQUE_ERROR
 from .helpers import (
     can_be_embedded,
     flatten_redirects,
+    is_secure,
     normalize_url,
     upgrade_protocol,
 )
@@ -22,6 +23,7 @@ class AwesomeLink(models.Model):
     rating_count   = models.IntegerField(blank=True, default=0)
     flag_count     = models.PositiveIntegerField(default=0)
     is_embeddable  = models.BooleanField(default=False)
+    is_secure      = models.BooleanField(default=False)
     is_approved    = models.BooleanField(default=False)
 
     class Meta:
@@ -62,6 +64,7 @@ class AwesomeLink(models.Model):
             self.url = upgrade_protocol(self.url)
             self.created = timezone.now()
             self.normalized_url = normalize_url(self.url)
+            self.is_secure = is_secure(self.url)
             self.is_embeddable = can_be_embedded(self.url)
         self.updated = timezone.now()
         return super(AwesomeLink, self).save(*args, **kwargs)
