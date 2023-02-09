@@ -38,12 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Third-party
+    # 'compressor',
     'rest_framework',
     # Local
     'links',
 ]
 
 MIDDLEWARE = [
+    # Django
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -51,6 +53,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Local
+    # 'awesomelink.middleware.exception_handler.ExceptionHandlerMiddleware',
+    # 'awesomelink.middleware.ssl_redirect.SSLRedirect',
+    # Django
 ]
 
 ROOT_URLCONF = 'awesomelink.urls'
@@ -82,9 +88,9 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'awesomelink_db',
+        'NAME': 'brettstevenson',
         'USER': 'admin',
-        'PASSWORD' : 'password',
+        'PASSWORD': 'password',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -128,6 +134,14 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'links', 'static-files')
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static-files')
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # Third-party
+    # 'compressor.finders.CompressorFinder',
+]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
