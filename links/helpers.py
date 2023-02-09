@@ -1,10 +1,12 @@
-import random
-import requests
 from urllib.parse import urlparse, ParseResult
+import random
+from django.forms import ValidationError
+import requests
 
 from .constants import (
-    MAX_REDIRECT_COUNT,
     CLIENT_ERROR_CODE_MIN,
+    DEFAULT_REQUEST_TIMEOUT,
+    MAX_REDIRECT_COUNT,
     SERVER_ERROR_CODE_MAX,
     VISITED_LINKS_COOKIE,
 )
@@ -30,7 +32,7 @@ def is_alive(url):
     """
     Check for a dead AwesomeLink
     """
-    response = requests.get(url)
+    response = requests.get(url, timeout=DEFAULT_REQUEST_TIMEOUT)
     return not is_error_code(response.status_code)
 
 def flatten_redirects(url):
@@ -46,11 +48,11 @@ def flatten_redirects(url):
             if redirect_count > MAX_REDIRECT_COUNT:
                 break
             prev = current
-            current = requests.get(prev).url
+            current = requests.get(prev, timeout=DEFAULT_REQUEST_TIMEOUT).url
             redirect_count += 1
         return (current, redirect_count)
     except Exception as url_error:
-        raise Exception(f'Unable to open \'{url}\'') from url_error
+        raise ValidationError(f'Unable to open \'{url}\'') from url_error
 
 def normalize_url(url):
     """
@@ -61,18 +63,18 @@ def normalize_url(url):
         # Strip the protocol, index.html, and trailing slashes
         return ParseResult('', *parsed_url[1:]).geturl().strip('index.html').strip('/')
     except Exception as parse_error:
-        raise Exception(f'Unable to normalize \'{url}\'') from parse_error
+        raise SyntaxError(f'Unable to normalize \'{url}\'') from parse_error
 
 def can_be_embedded(url):
     """
     Detect headers that prevent a page from being embedded in an iframe
     """
-    response = requests.get(url)
+    response = requests.get(url, timeout=DEFAULT_REQUEST_TIMEOUT)
     headers = response.headers
     if 'X-Frame-Options' in headers and \
-        (headers['X-Frame-Options'].upper() == 'SAMEORIGIN' or \
-        headers['X-Frame-Options'].upper() == 'DENY' or \
-        headers['X-Frame-Options'].upper() == 'ALLOW-FROM'):
+        (headers['X-Frame-Options'].upper() == 'SAMEORIGIN' or
+         headers['X-Frame-Options'].upper() == 'DENY' or
+         headers['X-Frame-Options'].upper() == 'ALLOW-FROM'):
         return False
     return True
 
@@ -84,10 +86,10 @@ def upgrade_protocol(url):
     if parsed_url.scheme == 'http':
         upgraded_url = parsed_url._replace(scheme='https').geturl()
         try:
-            response = requests.get(upgraded_url)
+            response = requests.get(upgraded_url, timeout=DEFAULT_REQUEST_TIMEOUT)
             if not is_error_code(response.status_code):
                 return upgraded_url
-        except:
+        except BaseException: # pylint: disable=broad-except
             return url
     return url
 
@@ -100,18 +102,20 @@ def is_secure(url):
 
 def get_visited_links(request):
     """
-    Retrieves the viewed link ID's from the user cookies and converts the string to a list of integers
+    Retrieves the viewed link ID's from the user cookies and converts the
+    string to a list of integers
     """
     data = request.COOKIES.get(VISITED_LINKS_COOKIE)
     try:
         return list(map(int, data.split(',')))
-    except:
+    except BaseException: # pylint: disable=broad-except
         # If we aren't able to parse the cookie data, than we reset it to an empty list
         return list()
 
 def update_visited_links(visited, id):
     """
-    Updates the queue of visited awesomelink ID's with the new ID and returns a stringified queue of at most 20 ID's.
+    Updates the queue of visited awesomelink ID's with the new ID and returns
+    a stringified queue of at most 20 ID's.
     """
     # Append new ID to the front
     visited.insert(0, id)

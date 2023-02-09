@@ -1,6 +1,5 @@
 import json
 from django.core.exceptions import FieldError
-from django.db.models import Q
 from django.db.utils import IntegrityError
 from django.http import (
     HttpResponse,
@@ -15,7 +14,6 @@ from rest_framework.decorators import api_view
 
 from .constants import (
     AWESOMELINK_DNE_ERROR,
-    AWESOMLINK_ORDER_BY,
     AWESOMELINK_UNAPPROVED_ERROR,
     AWESOMELINK_UNIQUE_ERROR,
     INVALID_PARAM_ERROR,
@@ -55,7 +53,7 @@ def awesomelink_list(request):
                 value=sort_order,
             ),
             return JsonResponse(
-                {'error':error_message[0]},
+                {'error': error_message[0]},
                 status=400
             )
     data = dict()
@@ -78,11 +76,11 @@ def awesomelink_pending(request):
     Retrieve a list of pending AwesomeLinks
     """
     if request.user and request.user.is_superuser:
-        awesomelinks = list(AwesomeLink.objects.filter(is_approved=False).order_by('created'))
-        context = { 'awesomelinks': awesomelinks }
+        awesomelinks = list(AwesomeLink.objects.filter(
+            is_approved=False).order_by('created'))
+        context = {'awesomelinks': awesomelinks}
         return render(request, 'links/pending.html', context)
     return HttpResponse('401 Unauthorized', status=401)
-
 
 @api_view(['GET'])
 def awesomelink_detail(request, pk):
@@ -91,10 +89,11 @@ def awesomelink_detail(request, pk):
     """
     try:
         awesomelink = AwesomeLink.objects.get(pk=pk)
-        serializer = AwesomeLinkSerializer(awesomelink, attach=['is_approved', 'is_embeddable'])
+        serializer = AwesomeLinkSerializer(
+            awesomelink, attach=['is_approved', 'is_embeddable'])
         return JsonResponse(serializer.data)
     except AwesomeLink.DoesNotExist:
-        return JsonResponse({ 'error': AWESOMELINK_DNE_ERROR }, status=404)
+        return JsonResponse({'error': AWESOMELINK_DNE_ERROR}, status=404)
 
 @never_cache
 def awesomelink_view(request):
@@ -102,8 +101,8 @@ def awesomelink_view(request):
     Redirect to a random AwesomeLink
     """
     visited = get_visited_links(request)
-    approvedlinks = AwesomeLink.objects.filter(is_approved=True)
-    awesomelinks = approvedlinks.exclude(pk__in=visited)
+    approved_links = AwesomeLink.objects.filter(is_approved=True)
+    awesomelinks = approved_links.exclude(pk__in=visited)
     if request.is_secure():
         awesomelinks = awesomelinks.filter(is_secure=True)
     awesomelink = get_random_link(awesomelinks)
@@ -114,8 +113,8 @@ def awesomelink_view(request):
     else:
         response = HttpResponseRedirect(awesomelink.url)
     # Update the visited links cookie data
-    visitedData = update_visited_links(visited, awesomelink.pk)
-    response.set_cookie(VISITED_LINKS_COOKIE, visitedData)
+    visited_data = update_visited_links(visited, awesomelink.pk)
+    response.set_cookie(VISITED_LINKS_COOKIE, visited_data)
     return response
 
 @api_view(['GET'])
@@ -132,9 +131,9 @@ def awesomelink_specific(request, pk):
             if awesomelink.is_embeddable:
                 return render(request, 'links/frame.html', context)
             return HttpResponseRedirect(awesomelink.url)
-        return JsonResponse({ 'error': AWESOMELINK_UNAPPROVED_ERROR }, status=403)
+        return JsonResponse({'error': AWESOMELINK_UNAPPROVED_ERROR}, status=403)
     except AwesomeLink.DoesNotExist:
-        return JsonResponse({ 'error': AWESOMELINK_DNE_ERROR }, status=404)
+        return JsonResponse({'error': AWESOMELINK_DNE_ERROR}, status=404)
 
 @csrf_exempt
 @api_view(['POST'])
@@ -169,7 +168,8 @@ def awesomelink_flag(request):
         form_data = form.cleaned_data
         try:
             # There shouldn't be a case for flagging an unapproved link
-            awesomelink = AwesomeLink.objects.get(pk=form_data['pk'], is_approved=True)
+            awesomelink = AwesomeLink.objects.get(
+                pk=form_data['pk'], is_approved=True)
             # Don't want to actually flag anything until the functionality is implemented
             # awesomelink.flag()
             serializer = AwesomeLinkSerializer(awesomelink)
@@ -189,7 +189,7 @@ def awesomelink_submit(request):
     """
     if request.method == 'GET':
         return render(request, 'links/submit.html', {})
-    elif request.method == 'POST':
+    if request.method == 'POST':
         try:
             form = AwesomeLinkForm(data=request.data)
             if form.is_valid():

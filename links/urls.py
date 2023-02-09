@@ -27,5 +27,6 @@ urlpatterns = [
     path('detail/<int:pk>', awesomelink_detail),
 ]
 
-urlpatterns += (static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))
+urlpatterns += (static(settings.STATIC_URL,
+                document_root=settings.STATIC_ROOT))
 urlpatterns = format_suffix_patterns(urlpatterns)
