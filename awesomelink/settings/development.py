@@ -7,7 +7,18 @@ from .base import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS += []
+# Minify static assets
+# COMPRESS_ENABLED = True
+# COMPRESS_CSS_FILTERS = ["compressor.filters.cssmin.CSSMinFilter"]
+# COMPRESS_JS_FILTERS = ["compressor.filters.jsmin.JSMinFilter"]
+
+# if 'pytest' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing and django-coverage
+#     DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
+
+ALLOWED_HOSTS += [
+    'localhost',
+    '127.0.0.1',
+]
 
 INSTALLED_APPS += [
     'debug_toolbar',

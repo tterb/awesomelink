@@ -6,6 +6,7 @@ from django.core.validators import URLValidator
 from .constants import (
     BLACKLIST_DOMAINS,
     BLACKLIST_URL_ERROR,
+    DEFAULT_REQUEST_TIMEOUT,
     URL_INVALID_ERROR,
 )
 
@@ -14,7 +15,7 @@ def validate_url(url):
     try:
         url_validator = URLValidator(schemes=['http', 'https'])
         url_validator(url)
-        requests.get(url)
+        requests.get(url, timeout=DEFAULT_REQUEST_TIMEOUT)
     except Exception as url_error:
         raise forms.ValidationError(
             URL_INVALID_ERROR,

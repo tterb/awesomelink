@@ -217,3 +217,5 @@ cython_debug/
 # Other
 script.py
 staticfiles
+notes.md
+fixture

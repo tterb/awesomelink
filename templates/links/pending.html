@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="page-container">
+    <div class="page-wrapper">
+        <h3 class="page-title text-rage">Pending Links</h3>
+        {% if awesomelinks %}
+            <div class="list-wrapper flex flex-col items-start">
+                {% for link in awesomelinks %}
+                    <div class="link-item flex flex-row items-center justify-center">
+                        <a
+                            class="pending-link"
+                            href="{{ link.url }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            {{ link.url }}
+                        </a>
+                        <button
+                            id="approveLink"
+                            class="btn approve-button"
+                            data-id="{{ link.pk }}"
+                        >Approve</button>
+                        <button
+                            id="denyLink"
+                            class="btn deny-button"
+                            data-id="{{ link.pk }}"
+                        >Deny</button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>There are no pending AwesomeLinks</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+    <script src="{% static 'js/pending.js' %}"></script>
+{% endblock scripts %}
