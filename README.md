@@ -5,7 +5,7 @@
 
 #### The perfect amount of spontaneity and chaotic wonder
 
-**Python version:** v3.9.2
+**Python version:** v3.9.13
 
 ## Development
 
