@@ -1,1 +1,1 @@
-web: gunicorn awesomelink.wsgi
+web: gunicorn awesomelink.wsgi --log-file - --log-level debug
