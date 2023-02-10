@@ -13,6 +13,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'awesomel.ink',
     'awesomelink.netlify.com',
+    'awesomelink.onrender.com',
     'awesomelink.herokuapp.com',
 ]
 
