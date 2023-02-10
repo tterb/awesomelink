@@ -9,7 +9,7 @@ from .base import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS += [
+ALLOWED_HOSTS = [
     'awesomel.ink',
     'awesomelink.netlify.com',
     'awesomelink.herokuapp.com',
