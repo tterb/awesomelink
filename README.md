@@ -12,5 +12,5 @@
 Start the local development server:
 
 ```sh
-python manage.py runserver --settings=settings.development
+python manage.py runserver --settings=awesomelink.settings.development
 ```

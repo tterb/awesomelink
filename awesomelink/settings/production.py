@@ -2,6 +2,7 @@
 Django settings for the production version of test_drive
 """
 import django_heroku
+import dj_database_url
 from decouple import config
 from .base import *
 
@@ -16,6 +17,10 @@ ALLOWED_HOSTS = [
 ]
 
 INSTALLED_APPS += []
+
+DATABASES = {
+    'default': dj_database_url.config
+}
 
 MIDDLEWARE += [
     'whitenoise.middleware.WhiteNoiseMiddleware',
