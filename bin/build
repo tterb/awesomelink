@@ -13,7 +13,7 @@ python manage.py collectstatic --no-input
 python manage.py migrate
 
 # Populate database
-# if [[ $POPULATE_DB ]];
-# then
-#   python manage.py shell < bin/create_links.py
-# fi
+if [[ $POPULATE_DB ]];
+then
+  python manage.py shell < bin/create_links.py
+fi
