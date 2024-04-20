@@ -14,7 +14,7 @@ ALLOWED_HOSTS = [
     'awesomel.ink',
     'awesomelink.netlify.com',
     'awesomelink.onrender.com',
-    'awesomelink.herokuapp.com',
+    'awesomelink.up.railway.app'
 ]
 
 INSTALLED_APPS += []
