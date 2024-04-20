@@ -19,8 +19,10 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS += []
 
+DATABASE_URL = config('DATABASE_URL')
+
 DATABASES = {
-    'default': dj_database_url.config
+    'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=1800),
 }
 
 MIDDLEWARE += [

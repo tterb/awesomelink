@@ -1,1 +1,1 @@
-web: gunicorn awesomelink.wsgi --log-file - --log-level debug
+web: python manage.py migrate && gunicorn awesomelink.wsgi --log-file - --log-level debug
